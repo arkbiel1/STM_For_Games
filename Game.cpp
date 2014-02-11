@@ -62,11 +62,10 @@ void Game::GameLoop()
      case Game::Playing:
        {
 			
-		 sf::Clock clock;
-         sf::Event currentEvent;
+		 //sf::Clock clock;
+         //sf::Event currentEvent;
          //while(_mainWindow.pollEvent(currentEvent))
-		 while(mainWindow.isOpen)
-           {
+
            _mainWindow.clear(sf::Color(sf::Color(0,0,0)));
 		   _gameObjectsManager.UpdateAll();
 		   _gameObjectsManager.DrawAll(_mainWindow);
@@ -79,8 +78,7 @@ void Game::GameLoop()
              {
                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) _mainWindow.close();
              }
-           }
-         break;
+		   break;
        }
    }
 }

@@ -23,8 +23,9 @@ private:
 	float MaxAngAcc;
 	float MaxLAcc;
    
-	sf::Vector2f velocity;  
+   sf::Vector2f velocity;  
    float maxSpeed;
    sf::Vector2f acceleration;  
    float maxAcceleration;
+   float rotation;
 };

@@ -4,14 +4,15 @@
 
 
 Spaceship::Spaceship():
-	MaxAngAcc(30),
-	MaxLAcc(30),
+	MaxAngAcc(60),
+	MaxLAcc(100),
 	LAcc(0),
 	AngAcc(0),
-	velocity(1,1), 
-	maxSpeed(100.0),
-	acceleration(0,0), 
-	maxAcceleration(100.0)
+	velocity(1,1),
+	rotation(0)
+	//maxSpeed(100.0)
+	//acceleration(0,0), 
+	//maxAcceleration(100.0)
 	//movement(0)
 {
 	//_maxVelocity(10.0f);
@@ -49,15 +50,39 @@ void Spaceship::Update(float elapsedTime)
 
 	// Position
 
-	sf::Vector2f position = GetSprite().getPosition();
+	sf::Vector2f position = GetSprite().getPosition(); // position vector
 
 	//printf(" positionX: %f", positionX);
 
 	// Orientation
 
-	float orientation = GetSprite().getRotation();
+	float orientation = GetSprite().getRotation(); // angle
+
 	//printf(" orientation: %f", orientation);
 
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		LAcc-=2;
+	}
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		LAcc+=2;
+	}
+
+	
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		AngAcc+=2;
+		rotation++;
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		AngAcc-=2;
+		rotation--;
+	} 
+
+	rotation = AngAcc *elapsedTime;
 
 	//float velocity = 0;
 	// Rotation
@@ -65,62 +90,35 @@ void Spaceship::Update(float elapsedTime)
 	// LAcc		behavious update these
 	// AngAcc	MaxLAcc MaxAngAcc
 
-	// Velocity = Velocity + LAcc * elapsedTime (in sec)
+	//velocity.x = velocity.x, velocity.y;
+
+	//position.x = (velocity.x -LAcc *elapsedTime);
+
+	//velocity.x = (velocity.x + LAcc * elapsedTime);
+
+	//velocity.y = (velocity.x + AngAcc * elapsedTime);
+
+	//printf("velocity: %f,%f\n", velocity.x, velocity.y);
+
 	// Rotation = Rotation + AngAcc * elapsedTime (in sec)
-	position = position + velocity * elapsedTime;
-	GetSprite().setPosition(position.x, position.y);
-	printf("position: %f,%f\n", position.x,position.y);
-	// Orientation = Orientation + Rotation * elapsedTime (in sec)
-
-
-
-	/*if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		//int leftBoundry = GetSprite().getPosition().x;
-		//if (leftBoundry > 42)
-		//	GetSprite().move(-10,0);
-		positionX--;
-		
-	}
+	//position = position + velocity * elapsedTime;
 	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		//int rightBoundry = GetSprite().getPosition().x;
-		//if (rightBoundry < 982)
-			//GetSprite().move(10,0);
-		positionX++;
-	}*/
+	//GetSprite().setPosition(position.x, position.y +LAcc);
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-		LAcc-=2;
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		LAcc+=2;
-	}  
+	//GetSprite().setPosition(position);
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		AngAcc--;
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		AngAcc++;
-	} 
+	//GetSprite().rotate(orientation);
 
-	/*if(velocity > maxVelocity)
-		velocity = maxVelocity;
+	//GetSprite().setRotation(AngAcc);
+	
+	printf("position: %f,%f\n", position.x, position.y);
 
-	if(velocity < 0)
-		velocity = 0;
+	float rotationLAcc = rotation + LAcc;
+	printf("rotationLAcc: %f\n", rotationLAcc);
 
-	if(acceleration > maxAcceleration)
-		acceleration = maxAcceleration;
+	printf("orientation: %f\n", orientation);
 
-	if(acceleration < -100)
-		acceleration = -100; */
-
+	// Orientation = Orientation + Rotation * elapsedTime (in sec)
 
 	//sf::Vector2f pos = this->GetPosition();
 
@@ -128,22 +126,47 @@ void Spaceship::Update(float elapsedTime)
 	//{
 	//	_velocity = -_velocity; // Bounce by current velocity in opposite direction
 	//}
-	
-	//GetSprite().move(0, velocity);
 
-	if(LAcc > 300)
+	GetSprite().rotate(rotation);
+
+
+	if(rotation > 0)
+		rotation--;
+
+	if(rotation < 0)
+		rotation++;
+
+
+
+	if(LAcc > 0)
+		LAcc--;
+
+	if(LAcc < 0)
+		LAcc++;
+
+	if(LAcc > MaxLAcc)
 		LAcc = MaxLAcc;
 
-	if(LAcc < -30)
-		LAcc = -30; 
+	if(LAcc < -100)
+		LAcc = -100; 
 
-	if(AngAcc > 100)
-		LAcc = MaxLAcc;
 
-	if(AngAcc < -100)
-		AngAcc = -100; 
 
-	
+	if(AngAcc > 0)
+		AngAcc--;
+
+	if(AngAcc < 0)
+		AngAcc++;
+
+	if(AngAcc > MaxAngAcc)
+		AngAcc = MaxAngAcc;
+
+	if(AngAcc < -50)
+		AngAcc = -50; 
+
+	printf(" LAcc: %f", LAcc);
+	printf(" AngAcc: %f", AngAcc);
+
 	//GetSprite().move(0, LAcc);
 
 	//GetSprite().move(0, LAcc*elapsedTime);
