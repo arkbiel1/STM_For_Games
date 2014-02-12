@@ -7,7 +7,7 @@
 
 
 Spaceship::Spaceship():
-	MaxAngAcc(80),
+	MaxAngAcc(60),
 	MaxLAcc(150),
 	LAcc(0),
 	AngAcc(0),
@@ -74,13 +74,11 @@ void Spaceship::Update(float elapsedTime)
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		AngAcc-=4;
-		rotation-=2;
+		AngAcc-=10;
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		AngAcc+=4;
-		rotation+=2;
+		AngAcc+=10;
 	} 
 
 	rotation = AngAcc *elapsedTime;
@@ -105,79 +103,40 @@ void Spaceship::Update(float elapsedTime)
 	//printf(" movementY: %f \n", movementY);
 
 
-	printf(" LAcc: %f \n", LAcc);
-	printf(" AngAcc: %f \n", AngAcc);
-	printf("position: %f,%f \n", position.x, position.y);
+	printf(" LAcc: %f\n", LAcc);
+	printf(" AngAcc: %f\n", AngAcc);
+	printf(" position: %f,%f\n", position.x, position.y);
 	//printf("rotationLAcc: %f \n", rotationLAcc);
-	printf("orientation: %f \n", orientation);
+	printf(" orientation: %f\n", orientation);
 
-	printf("rotation: %f\n", rotation);
-	printf("speed: %f\n", speed);
+	printf(" rotation: %f\n", rotation);
+	printf(" speed: %f\n", speed);
 
 	
 
-	printf("SCREEN_WIDTH: %int \n ", Game::SCREEN_WIDTH);
-	printf("SCREEN_HEIGHT: %int \n ", Game::SCREEN_HEIGHT);
+	printf(" SCREEN_WIDTH: %int\n ", Game::SCREEN_WIDTH);
+	printf(" SCREEN_HEIGHT: %int\n ", Game::SCREEN_HEIGHT);
 
-	GetSprite().move(movementX, movementY);
+	float localbx = GetSprite().getLocalBounds().width/8;
+	float localby = GetSprite().getLocalBounds().height/8;
+
+	printf(" localbx: %f\n", localbx);
+	printf(" localby: %f\n", localby);
 
 
-	if(position.x > Game::SCREEN_WIDTH)
+	if(position.x < localbx)
 	{
-		position.x = Game::SCREEN_WIDTH; 
+		LAcc = 0; 
+		//LAcc = 0; 
+		movementX = 1.5; 
 	}
 
-	if(position.x < 0)
+	if(position.y < localby)
 	{
-		position.x = 0; 
+		LAcc = 0; 
+		//LAcc = 0; 
+		movementY = 1.5; 
 	}
-
-	if(position.y > Game::SCREEN_HEIGHT)
-	{
-		position.y = Game::SCREEN_HEIGHT; 
-	}
-
-	if(position.y < 0)
-	{
-		position.y = 0; 
-	}
-
-	//position = position + velocity * elapsedTime;
-
-
-
-	//float movementY += speed * Math.Sin(angle);
-
-	//float velocity = 0;
-	// Rotation
-
-	// LAcc		behavious update these
-	// AngAcc	MaxLAcc MaxAngAcc
-
-	//velocity.x = velocity.x, velocity.y;
-
-	//position.x = (velocity.x -LAcc *elapsedTime);
-
-	//velocity.x = (velocity.x + LAcc * elapsedTime);
-
-	//velocity.y = (velocity.x + AngAcc * elapsedTime);
-
-	//printf("velocity: %f,%f\n", velocity.x, velocity.y);
-
-	// Rotation = Rotation + AngAcc * elapsedTime (in sec)
-	//position = position + velocity * elapsedTime;
-	
-	//GetSprite().setPosition(100, movementY);
-
-	//GetSprite().move(movementX, movementY);
-
-	//GetSprite().setPosition(position);
-
-	//GetSprite().rotate(orientation);
-
-	//GetSprite().setRotation(AngAcc);
-	
-	// Orientation = Orientation + Rotation * elapsedTime (in sec)
 
 	//sf::Vector2f pos = this->GetPosition();
 
@@ -187,15 +146,10 @@ void Spaceship::Update(float elapsedTime)
 	//}
 
 
+	GetSprite().move(movementX, movementY);
+
+
 	GetSprite().rotate(rotation);
-
-
-	if(rotation > 0)
-		rotation--;
-
-	if(rotation < 0)
-		rotation++;
-
 
 
 	if(LAcc > 0)
@@ -223,21 +177,5 @@ void Spaceship::Update(float elapsedTime)
 
 	if(AngAcc < -50)
 		AngAcc = -50; 
-
-	
-
-	//GetSprite().move(0, LAcc);
-
-	//GetSprite().move(0, LAcc*elapsedTime);
-
-	//printf(" Velocity: %f", velocity);
-	/*printf(" ElapsedTime: %f", elapsedTime);
-	printf(" LAcc: %f", LAcc);
-	printf(" AngAcc: %f", AngAcc);*/
-
-
-
-	//printf(" Acceleration: %f", acceleration);
-
 
 }
