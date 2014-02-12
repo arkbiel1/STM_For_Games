@@ -12,10 +12,6 @@ Spaceship::Spaceship():
 	LAcc(0),
 	AngAcc(0),
 	rotation(0)
-	//maxSpeed(100.0)
-	//acceleration(0,0), 
-	//maxAcceleration(100.0)
-	//movement(0)
 {
 	//_maxVelocity(10.0f);
 	Load("img/spaceship.png");
@@ -112,10 +108,9 @@ void Spaceship::Update(float elapsedTime)
 	printf(" rotation: %f\n", rotation);
 	printf(" speed: %f\n", speed);
 
-	
 
-	printf(" SCREEN_WIDTH: %int\n ", Game::SCREEN_WIDTH);
-	printf(" SCREEN_HEIGHT: %int\n ", Game::SCREEN_HEIGHT);
+	printf(" SCREEN_WIDTH: %i\n ", Game::SCREEN_WIDTH);
+	printf(" SCREEN_HEIGHT: %i\n ", Game::SCREEN_HEIGHT);
 
 	float localbx = GetSprite().getLocalBounds().width/8;
 	float localby = GetSprite().getLocalBounds().height/8;
@@ -131,6 +126,13 @@ void Spaceship::Update(float elapsedTime)
 		movementX = 1.5; 
 	}
 
+	if(position.x > (Game::SCREEN_WIDTH - localbx))
+	{
+		LAcc = 0; 
+		//LAcc = 0; 
+		movementX = -1.5; 
+	}
+
 	if(position.y < localby)
 	{
 		LAcc = 0; 
@@ -138,6 +140,12 @@ void Spaceship::Update(float elapsedTime)
 		movementY = 1.5; 
 	}
 
+	if(position.y > (Game::SCREEN_HEIGHT - localby))
+	{
+		LAcc = 0; 
+		//LAcc = 0; 
+		movementY = -1.5; 
+	}
 	//sf::Vector2f pos = this->GetPosition();
 
 	//if(pos.x  < GetSprite().getLocalBounds().width/2 || pos.x > (Game::SCREEN_WIDTH - GetSprite().getLocalBounds().width/2))

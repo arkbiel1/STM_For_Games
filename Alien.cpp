@@ -1,0 +1,51 @@
+#include "stdafx.h"
+#include "Alien.h"
+#include "Game.h"
+//#define _USE_MATH_DEFINES
+//#include <cmath>
+//#include <math.h>
+
+
+Alien::Alien():
+	velocity(0)
+{
+	//_maxVelocity(10.0f);
+	Load("img/alien.png");
+
+	//throws error window if file loading fails
+	assert(IsLoaded());
+
+	GetSprite().setOrigin(GetSprite().getLocalBounds().width /2, GetSprite().getLocalBounds().height / 2 - 50);
+}
+
+Alien::~Alien()
+{
+}
+
+void Alien::Draw(sf::RenderWindow & rw)
+{
+	GameObjects::Draw(rw);
+}
+
+float Alien::GetVelocity() const
+{
+	return velocity;
+}
+
+void Alien::Update(float elapsedTime)
+{
+
+	// Position
+
+	sf::Vector2f position = GetSprite().getPosition(); // position vector
+
+	printf(" alien position.x: %f", position.x);
+
+	float moveRight = 80*elapsedTime;
+
+	if (position.x > (Game::SCREEN_WIDTH -10))
+		moveRight = -5;
+
+	GetSprite().move(moveRight,0);
+
+}

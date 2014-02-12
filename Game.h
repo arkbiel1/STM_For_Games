@@ -2,6 +2,7 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "Spaceship.h"
+#include "Alien.h"
 #include "GameObjectsManager.h"
 
 class Game

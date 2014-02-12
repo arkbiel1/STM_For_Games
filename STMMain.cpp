@@ -14,18 +14,15 @@ int main()
 		}
 	sf::Sprite sprite;
 	sprite.setTexture(mainMenu);
-    //sf::CircleShape shape(100.f);
-    //shape.setFillColor(sf::Color::Green);
 
-    while (window.isOpen())
+    while (window.isOpen()) //MainMenu
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+		sf::Event event;
 		window.draw(sprite);
+		window.display();
+
+		while (window.pollEvent(event))
+		{
         window.display();
 
 		if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -35,67 +32,66 @@ int main()
 			// retrieve the bounding box of the sprite
 			//sf::FloatRect exitBounds = sprite.getGlobalBounds();
 			float mouseY = mouse.y;
-			// hit test
+			
 			if (mouseY > 300)
 			{
 				window.close();
 			}
 
-			else
+			if (mouseY < 300)
 			{
-				 while (window.isOpen())
+				while (window.isOpen()) // STMMenu
 				{
-					sf::Event event;
-					while (window.pollEvent(event))
+				sf::Event event;
+				while (window.pollEvent(event))
+				{
+				// transform the mouse position from window coordinates to world coordinates
+				sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+				// retrieve the bounding box of the sprite
+				//sf::FloatRect exitBounds = sprite.getGlobalBounds();
+				float mouseY = mouse.y;
+				sf::Texture STMMainMenu;
+				if (!STMMainMenu.loadFromFile("img/STMMainMenu.png"))
 					{
-						if (event.type == sf::Event::Closed)
-							window.close();
+					// error...
+						printf("File not found");
 					}
-					sf::Texture STMMainMenu;
-					if (!STMMainMenu.loadFromFile("img/STMMainMenu.png"))
-						{
-							// error...
-							printf("File not found");
-						}
-					sf::Sprite sprite;
-					sprite.setTexture(STMMainMenu);
-					window.clear();
-					window.draw(sprite);
-					window.display();
+				sf::Sprite sprite;
+				sprite.setTexture(STMMainMenu);
+				window.clear();
+				window.draw(sprite);
+				window.display();
 
-					if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					if (mouseY > 5 && mouseY < 150)
 					{
-						// transform the mouse position from window coordinates to world coordinates
-						sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-
-						// retrieve the bounding box of the sprite
-						//sf::FloatRect exitBounds = sprite.getGlobalBounds();
-
-						float mouseY = mouse.y;
-
-						// hit test
-						if (mouseY > 5 && mouseY < 150)
-						{
-							printf("FLOCKING");
-							window.close();
-							Game::Initialize();
-						}
-						else if (mouseY > 150 && mouseY < 300)
-						{
-							printf("SWARMING");
-						}
-						else if (mouseY > 300 && mouseY < 450)
-						{
-							printf("A*");
-						}
-						else if (mouseY > 450)
-						{
-							window.close();
-						}
+						printf("FLOCKING");
+						window.close();
+						Game::Initialize();
 					}
-				 }
+					else if (mouseY > 150 && mouseY < 300)
+					{
+						printf("SWARMING");
+					}
+					else if (mouseY > 300 && mouseY < 450)
+					{
+						printf("A*");
+					}
+					else if (mouseY > 450)
+					{
+						window.close();
+					}
+				}
+				if (event.type == sf::Event::Closed)
+				window.close();
+				}
+				}
 			}
 			printf("%f", mouseY);
+		}
+		if (event.type == sf::Event::Closed)
+		 window.close();
 		}
 		
     }

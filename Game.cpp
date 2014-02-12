@@ -11,9 +11,14 @@ void Game::Initialize(void)
   _mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),"STM Game");
 
    Spaceship *spaceship = new Spaceship();
-   spaceship->SetPosition((SCREEN_WIDTH/2),500);
+   spaceship->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-100));
 
    _gameObjectsManager.Add("Spaceship",spaceship);
+
+   Alien *alien = new Alien();
+   alien->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
+
+   _gameObjectsManager.Add("Alien",alien);
 
   _gameState = Game::Playing;
   

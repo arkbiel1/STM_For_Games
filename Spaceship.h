@@ -17,15 +17,10 @@ float GetLAcc() const;
 float GetAngAcc() const;
 
 private:
-	//int movement;
+
 	float LAcc;
 	float AngAcc;
 	float MaxAngAcc;
 	float MaxLAcc;
-   
-   sf::Vector2f velocity;  
-   float maxSpeed;
-   sf::Vector2f acceleration;  
-   float maxAcceleration;
-   float rotation;
+    float rotation;
 };
