@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Spaceship.h"
 #include "Game.h"
+#include <cmath>
 
 
 Spaceship::Spaceship():
@@ -8,7 +9,7 @@ Spaceship::Spaceship():
 	MaxLAcc(100),
 	LAcc(0),
 	AngAcc(0),
-	velocity(1,1),
+	velocity(0,0),
 	rotation(0)
 	//maxSpeed(100.0)
 	//acceleration(0,0), 
@@ -73,16 +74,47 @@ void Spaceship::Update(float elapsedTime)
 	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		AngAcc+=2;
-		rotation++;
+		AngAcc-=2;
+		rotation--;
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		AngAcc-=2;
-		rotation--;
+		AngAcc+=2;
+		rotation++;
 	} 
 
 	rotation = AngAcc *elapsedTime;
+
+	float speed = LAcc *elapsedTime;
+
+	float movementX = cos(0.0174532925*orientation)*speed;
+
+	float movementY = sin(0.0174532925*orientation)*speed;
+
+	
+	float rotationLAcc = rotation + LAcc;
+
+	//printf(" movementX: %f \n", movementX);
+	//printf(" movementY: %f \n", movementY);
+
+
+	printf(" LAcc: %f \n", LAcc);
+	printf(" AngAcc: %f \n", AngAcc);
+	printf("position: %f,%f \n", position.x, position.y);
+	printf("rotationLAcc: %f \n", rotationLAcc);
+	printf("orientation: %f \n", orientation);
+
+	printf("rotation: %f\n", rotation);
+	printf("speed: %f\n", speed);
+
+
+	GetSprite().move(movementX, movementY);
+
+	//position = position + velocity * elapsedTime;
+
+
+
+	//float movementY += speed * Math.Sin(angle);
 
 	//float velocity = 0;
 	// Rotation
@@ -103,7 +135,9 @@ void Spaceship::Update(float elapsedTime)
 	// Rotation = Rotation + AngAcc * elapsedTime (in sec)
 	//position = position + velocity * elapsedTime;
 	
-	//GetSprite().setPosition(position.x, position.y +LAcc);
+	//GetSprite().setPosition(100, movementY);
+
+	//GetSprite().move(movementX, movementY);
 
 	//GetSprite().setPosition(position);
 
@@ -111,13 +145,6 @@ void Spaceship::Update(float elapsedTime)
 
 	//GetSprite().setRotation(AngAcc);
 	
-	printf("position: %f,%f\n", position.x, position.y);
-
-	float rotationLAcc = rotation + LAcc;
-	printf("rotationLAcc: %f\n", rotationLAcc);
-
-	printf("orientation: %f\n", orientation);
-
 	// Orientation = Orientation + Rotation * elapsedTime (in sec)
 
 	//sf::Vector2f pos = this->GetPosition();
@@ -126,6 +153,7 @@ void Spaceship::Update(float elapsedTime)
 	//{
 	//	_velocity = -_velocity; // Bounce by current velocity in opposite direction
 	//}
+
 
 	GetSprite().rotate(rotation);
 
@@ -164,8 +192,7 @@ void Spaceship::Update(float elapsedTime)
 	if(AngAcc < -50)
 		AngAcc = -50; 
 
-	printf(" LAcc: %f", LAcc);
-	printf(" AngAcc: %f", AngAcc);
+	
 
 	//GetSprite().move(0, LAcc);
 
