@@ -8,7 +8,7 @@ void Game::Initialize(void)
 
   _mainWindow.setFramerateLimit(60);
 
-  _mainWindow.create(sf::VideoMode(SCREEN_WIDTH,SCREEN_HEIGHT),"STM Game");
+  _mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),"STM Game");
 
    Spaceship *spaceship = new Spaceship();
    spaceship->SetPosition((SCREEN_WIDTH/2),500);

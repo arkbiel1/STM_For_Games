@@ -1,15 +1,16 @@
 #include "stdafx.h"
 #include "Spaceship.h"
 #include "Game.h"
-#include <cmath>
+#define _USE_MATH_DEFINES
+//#include <cmath>
+#include <math.h>
 
 
 Spaceship::Spaceship():
-	MaxAngAcc(60),
-	MaxLAcc(100),
+	MaxAngAcc(80),
+	MaxLAcc(150),
 	LAcc(0),
 	AngAcc(0),
-	velocity(0,0),
 	rotation(0)
 	//maxSpeed(100.0)
 	//acceleration(0,0), 
@@ -63,36 +64,42 @@ void Spaceship::Update(float elapsedTime)
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		LAcc-=2;
+		LAcc+=15;
 	}
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		LAcc+=2;
+		LAcc-=15;
 	}
 
-	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		AngAcc-=2;
-		rotation--;
+		AngAcc-=4;
+		rotation-=2;
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		AngAcc+=2;
-		rotation++;
+		AngAcc+=4;
+		rotation+=2;
 	} 
 
 	rotation = AngAcc *elapsedTime;
 
 	float speed = LAcc *elapsedTime;
 
-	float movementX = cos(0.0174532925*orientation)*speed;
+	float orientInRad = (M_PI/ 180) * (orientation -90) ;
+	
+	// convert to radians
+	//pos.Z += PLAYER_SPEED * cos(roty_rad);
+	//pos.X += PLAYER_SPEED * sin(roty_rad);
 
-	float movementY = sin(0.0174532925*orientation)*speed;
+
+	float movementX = cos(orientInRad)*speed;
+
+	float movementY = sin(orientInRad)*speed;
 
 	
-	float rotationLAcc = rotation + LAcc;
+	//float rotationLAcc = rotation + LAcc;
 
 	//printf(" movementX: %f \n", movementX);
 	//printf(" movementY: %f \n", movementY);
@@ -101,14 +108,39 @@ void Spaceship::Update(float elapsedTime)
 	printf(" LAcc: %f \n", LAcc);
 	printf(" AngAcc: %f \n", AngAcc);
 	printf("position: %f,%f \n", position.x, position.y);
-	printf("rotationLAcc: %f \n", rotationLAcc);
+	//printf("rotationLAcc: %f \n", rotationLAcc);
 	printf("orientation: %f \n", orientation);
 
 	printf("rotation: %f\n", rotation);
 	printf("speed: %f\n", speed);
 
+	
+
+	printf("SCREEN_WIDTH: %int \n ", Game::SCREEN_WIDTH);
+	printf("SCREEN_HEIGHT: %int \n ", Game::SCREEN_HEIGHT);
 
 	GetSprite().move(movementX, movementY);
+
+
+	if(position.x > Game::SCREEN_WIDTH)
+	{
+		position.x = Game::SCREEN_WIDTH; 
+	}
+
+	if(position.x < 0)
+	{
+		position.x = 0; 
+	}
+
+	if(position.y > Game::SCREEN_HEIGHT)
+	{
+		position.y = Game::SCREEN_HEIGHT; 
+	}
+
+	if(position.y < 0)
+	{
+		position.y = 0; 
+	}
 
 	//position = position + velocity * elapsedTime;
 
