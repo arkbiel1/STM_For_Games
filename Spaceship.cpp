@@ -11,6 +11,7 @@ Spaceship::Spaceship():
 	MaxLAcc(150),
 	LAcc(0),
 	AngAcc(0),
+	health(100),
 	rotation(0)
 {
 	//_maxVelocity(10.0f);
@@ -41,7 +42,10 @@ float Spaceship::GetAngAcc() const
 	return AngAcc;
 }
 
-
+int Spaceship::GetHealth()
+{
+	return health;
+}
 
 void Spaceship::Update(float elapsedTime)
 {
@@ -185,5 +189,17 @@ void Spaceship::Update(float elapsedTime)
 
 	if(AngAcc < -50)
 		AngAcc = -50; 
+
+	Alien* alien = dynamic_cast<Alien*>(Game::GetGameObjectsManager().Get("Alien"));
+	if(alien != NULL)
+		{
+			sf::Rect<float> p1BB = alien->GetBoundingRect();
+
+			if(p1BB.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
+			{ 
+				printf("COLLLLLLLLLLLLLLLLLLLLLLLISION \n\n\n\n\n\n\n\n\n\n\n\n");
+				health--;
+			}
+		}
 
 }

@@ -1,12 +1,26 @@
 #include "stdafx.h"
 #include "Game.h"
 
+#include <iostream>
+#include <sstream>
+ 
+using namespace std;
+
+// Converts an int into a string
+static inline std::string int2Str(int x)
+	{
+		std::stringstream type;
+		type << x;
+		return type.str();
+	}
+
 void Game::Initialize(void)
 {
   if(_gameState != Uninitialized)
     return;
 
   _mainWindow.setFramerateLimit(60);
+
 
   _mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),"STM Game");
 
@@ -70,11 +84,42 @@ void Game::GameLoop()
 		 //sf::Clock clock;
          //sf::Event currentEvent;
          //while(_mainWindow.pollEvent(currentEvent))
+		   
 
            _mainWindow.clear(sf::Color(sf::Color(0,0,0)));
 		   _gameObjectsManager.UpdateAll();
 		   _gameObjectsManager.DrawAll(_mainWindow);
-           _mainWindow.display();
+
+		  //create a font
+		sf::Font font;
+
+		//int health = 100;
+
+
+		// Load it from a file
+		if (!font.loadFromFile("font/sansation.ttf"))
+		{
+			printf("Error loading font\n");
+		}
+
+		int health = 100; //Spaceship::health;
+
+		string healStr = int2Str(health);
+
+		sf::Text atext;
+		atext.setFont(font);
+		atext.setCharacterSize(20);
+		atext.setStyle(sf::Text::Bold);
+		atext.setColor(sf::Color::White);
+		atext.setPosition(0,0);
+		atext.setString("Health: "  +healStr); 
+
+		//draw the string
+		_mainWindow.draw(atext); 
+
+		// Finally, display rendered frame on screen 
+		_mainWindow.display(); 
+          // _mainWindow.display();
          
            if(currentEvent.type == sf::Event::Closed) _gameState =
                          Game::Exiting;

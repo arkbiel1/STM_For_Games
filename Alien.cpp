@@ -41,11 +41,27 @@ void Alien::Update(float elapsedTime)
 
 	printf(" alien position.x: %f", position.x);
 
-	float moveRight = 80*elapsedTime;
+	printf(" alien position.:y %f", position.y);
 
-	if (position.x > (Game::SCREEN_WIDTH -10))
-		moveRight = -5;
+	//float move = 80*elapsedTime;
 
-	GetSprite().move(moveRight,0);
+	GetSprite().move(2,0);
 
+	if (position.x > 780)
+	{
+		GetSprite().move(-780,0);
+	}
+
+	//GetSprite().move(0,0); // move
+
+	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get("Spaceship"));
+	if(spaceship != NULL)
+		{
+			sf::Rect<float> p1BB = spaceship->GetBoundingRect();
+
+			if(p1BB.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
+			{ 
+				printf("COLLLLLLLLLLLLLLLLLLLLLLLISION \n\n\n\n\n\n\n");
+			}
+		}
 }
