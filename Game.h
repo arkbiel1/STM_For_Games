@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "Spaceship.h"
 #include "Alien.h"
+#include "Alien2.h"
 #include "GameObjectsManager.h"
 
 class Game
@@ -19,6 +20,8 @@ public:
 private:
   static bool IsExiting();
   static void GameLoop();
+
+  int player1health;
 
   enum GameState { Uninitialized, Playing, Exiting };
   

@@ -10,15 +10,15 @@ public:
 	Spaceship();
 	~Spaceship();
 
-	int health;
+int getHealth();
+void reduceHealth();
+
 
 void Update(float elapsedTime);
 void Draw(sf::RenderWindow& rw);
    
 float GetLAcc() const;
 float GetAngAcc() const;
-
-int GetHealth();
 
 private:
 
@@ -27,4 +27,7 @@ private:
 	float MaxAngAcc;
 	float MaxLAcc;
     float rotation;
+
+	int health; 
+
 };

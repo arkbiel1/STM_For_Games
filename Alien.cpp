@@ -15,7 +15,7 @@ Alien::Alien():
 	//throws error window if file loading fails
 	assert(IsLoaded());
 
-	GetSprite().setOrigin(GetSprite().getLocalBounds().width /2, GetSprite().getLocalBounds().height / 2 - 50);
+	GetSprite().setOrigin(GetSprite().getLocalBounds().width /2, GetSprite().getLocalBounds().height / 2 - 90); //50
 }
 
 Alien::~Alien()
@@ -39,9 +39,9 @@ void Alien::Update(float elapsedTime)
 
 	sf::Vector2f position = GetSprite().getPosition(); // position vector
 
-	printf(" alien position.x: %f", position.x);
+	printf(" alien position.x: %f \n", position.x);
 
-	printf(" alien position.:y %f", position.y);
+	printf(" alien position.y: %f \n", position.y);
 
 	//float move = 80*elapsedTime;
 
@@ -57,9 +57,9 @@ void Alien::Update(float elapsedTime)
 	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get("Spaceship"));
 	if(spaceship != NULL)
 		{
-			sf::Rect<float> p1BB = spaceship->GetBoundingRect();
+			sf::Rect<float> spaceshipBounds = spaceship->GetBoundingRect();
 
-			if(p1BB.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
+			if(spaceshipBounds.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
 			{ 
 				printf("COLLLLLLLLLLLLLLLLLLLLLLLISION \n\n\n\n\n\n\n");
 			}
