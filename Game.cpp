@@ -35,12 +35,6 @@ void Game::Initialize(void)
 
 	_gameObjectsManager.Add("Spaceship", spaceship);
 
-	Alien2 *alien2 = new Alien2();
-	alien2->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-500));
-
-	_gameObjectsManager.Add("Alien2", alien2);
-
-
 	_gameState = Game::Playing;
 
 
@@ -108,11 +102,19 @@ void Game::GameLoop()
 		printf("Error loading font\n");
 	}
 		
-	/*Spaceship player1health;
+	Spaceship health; 
 
-	int efdefe = player1health.getHealth();
+	int health2 = health.getHealth();
 
-	printf("plaaaaaaaaaaaaaehhhhhhhhhhh : %d\n\n\n\n\n\\n\n\n\n", efdefe);*/
+	//int efdefe = 12;
+
+	printf("game.cpp health : %d\n", health2);
+	printf("game.cpp health : %d\n", health2);
+	printf("game.cpp health : %d\n", health2);
+	printf("game.cpp health : %d\n", health2);
+	printf("game.cpp health : %d\n", health2);
+	printf("game.cpp health : %d\n", health2);
+
 
 	//Spaceship::reduceHealth();
 
@@ -144,25 +146,10 @@ void Game::GameLoop()
 
 			_mainWindow.clear(sf::Color(sf::Color(0,0,0)));
 
-			//sf::Uint8* pixels [10 * 20 * 4]; // get a fresh chunk of pixels (the next frame of a movie, for example)
-			//sprite.update(pixels);
-			//stars.update;
-
-			//stars.create(600,600);
-
-
 			_mainWindow.draw(sprite);
 
-
-			//_mainWindow.clear(sf::Color(sf::Color(0,0,0)));
 			_gameObjectsManager.UpdateAll();
 			_gameObjectsManager.DrawAll(_mainWindow);
-
-			/*Spaceship player1health;
-
-	int efdefe = player1health.reduceHealth();
-
-	printf("plaaaaaaaaaaaaaehhhhhhhhhhh : %d", efdefe);*/
 
 			_mainWindow.draw(atext); 
 

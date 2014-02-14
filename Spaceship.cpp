@@ -11,7 +11,7 @@ Spaceship::Spaceship():
 	MaxLAcc(150),
 	LAcc(0),
 	AngAcc(0),
-	health(98),
+	health(116),
 	rotation(0)
 { 
 	//_maxVelocity(10.0f);
@@ -48,11 +48,11 @@ int Spaceship::getHealth()
 	return health;
 }
 
-void Spaceship::reduceHealth()
+void Spaceship::reduceHealth(int reduceBy) 
 {
-	health--;
+	health -= reduceBy;
+	//return health;
 }
-
 
 void Spaceship::Update(float elapsedTime)
 {
@@ -93,7 +93,7 @@ void Spaceship::Update(float elapsedTime)
 	float speed = LAcc *elapsedTime;
 
 	float orientInRad = (M_PI/ 180) * (orientation -90) ;
-	
+
 	// convert to radians
 	//pos.Z += PLAYER_SPEED * cos(roty_rad);
 	//pos.X += PLAYER_SPEED * sin(roty_rad);
@@ -103,7 +103,7 @@ void Spaceship::Update(float elapsedTime)
 
 	float movementY = sin(orientInRad)*speed;
 
-	
+
 	//float rotationLAcc = rotation + LAcc;
 
 	//printf(" movementX: %f \n", movementX);
@@ -197,23 +197,21 @@ void Spaceship::Update(float elapsedTime)
 	if(AngAcc < -50)
 		AngAcc = -50; 
 
-	Alien2* alien2 = dynamic_cast<Alien2*>(Game::GetGameObjectsManager().Get("Alien2"));
-	if(alien2 != NULL)
-		{
-			sf::Rect<float> alienCol2 = alien2->GetBoundingRect();
+	Alien* alien = dynamic_cast<Alien*>(Game::GetGameObjectsManager().Get("Alien"));
+	if(alien != NULL)
+	{
+		sf::Rect<float> alienCol = alien->GetBoundingRect();
 
-			if(alienCol2.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
-			{ 
-				//printf("COLLLLLLLLLLLLLLLLLLLLLLLISION \n\n\n\n\n\n\n\n\n\n\n\n");
-				//GetSprite().move(0, +200);
+		if(alienCol.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
+		{ 
+			//printf("COLLLLLLLLLLLLLLLLLLLLLLLISION \n\n\n\n\n\n\n\n\n\n\n\n");
+			//GetSprite().move(0, +200);
 
-				int haha = Spaceship::getHealth();
+			//int haha = Spaceship::getHealth();
 
-				Spaceship::reduceHealth();
+			Spaceship::reduceHealth(1);
 
-				printf("plaaaaaaaaaaaaaehhhhhhhhhhh : %d\n\n\n\n\n\n\n\n\n\n\n\n", haha);
-
-			}
+			printf("spaceship.cpp health : %d\n\n\n\n\n\n\n\n\n\n\n\n", Spaceship::getHealth());
 		}
-
+	}
 }

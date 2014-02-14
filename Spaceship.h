@@ -11,8 +11,7 @@ public:
 	~Spaceship();
 
 int getHealth();
-void reduceHealth();
-
+void reduceHealth(int reduceBy);
 
 void Update(float elapsedTime);
 void Draw(sf::RenderWindow& rw);
