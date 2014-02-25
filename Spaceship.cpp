@@ -211,7 +211,7 @@ void Spaceship::Update(float elapsedTime)
 
 			Spaceship::reduceHealth(1);
 
-			printf("spaceship.cpp health : %d\n\n\n\n\n\n\n\n\n\n\n\n", Spaceship::getHealth());
+			//printf("spaceship.cpp health : %d\n\n\n\n\n\n\n\n\n\n\n\n", Spaceship::getHealth());
 		}
 	}
 }

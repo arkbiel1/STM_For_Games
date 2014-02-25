@@ -19,6 +19,8 @@ public:
 private:
   static bool IsExiting();
   static void GameLoop();
+  
+  static Spaceship * player;
 
   enum GameState { Uninitialized, Playing, Exiting };
   

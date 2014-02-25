@@ -7,6 +7,8 @@
 
 using namespace std;
 
+Spaceship * Game::player;
+
 // Converts an int into a string
 static inline std::string int2Str(int x)
 {
@@ -35,6 +37,9 @@ void Game::Initialize(void)
 
 	_gameObjectsManager.Add("Spaceship", spaceship);
 
+	
+	player = spaceship;
+
 	_gameState = Game::Playing;
 
 
@@ -45,6 +50,7 @@ void Game::Initialize(void)
 
 	_mainWindow.close();
 }
+
 
 bool Game::IsExiting()
 {
@@ -102,27 +108,27 @@ void Game::GameLoop()
 		printf("Error loading font\n");
 	}
 		
-	Spaceship health; 
+	//////	
+	////////int health3 = Game::Initialize.health2;
 
-	int health2 = health.getHealth();
+	////////int efdefe = 12;
 
-	//int efdefe = 12;
-
-	printf("game.cpp health : %d\n", health2);
-	printf("game.cpp health : %d\n", health2);
-	printf("game.cpp health : %d\n", health2);
-	printf("game.cpp health : %d\n", health2);
-	printf("game.cpp health : %d\n", health2);
-	printf("game.cpp health : %d\n", health2);
+	/*printf("game.cpp health : %d\n", health3);
+	printf("game.cpp health : %d\n", health3);
+	printf("game.cpp health : %d\n", health3);
+	printf("game.cpp health : %d\n", health3);
+	printf("game.cpp health : %d\n", health3);
+	printf("game.cpp health : %d\n", health3);*/
 
 
 	//Spaceship::reduceHealth();
 
 	//int health = 100; //Spaceship::health;
 
-	//string healStr = int2Str(efdefe);
+	string healStr = int2Str(player->getHealth());
 
 	// draw health
+	//playerHealth = getHealth();
 
 	sf::Text atext;
 	atext.setFont(font);
@@ -130,7 +136,8 @@ void Game::GameLoop()
 	atext.setStyle(sf::Text::Bold);
 	atext.setColor(sf::Color::White);
 	atext.setPosition(0,0);
-	//atext.setString("Health: "  +healStr); 
+	//int health = player->getHealth();
+	atext.setString("Health: "  + healStr); 
 
 	//draw the string
 
@@ -147,12 +154,10 @@ void Game::GameLoop()
 			_mainWindow.clear(sf::Color(sf::Color(0,0,0)));
 
 			_mainWindow.draw(sprite);
+			_mainWindow.draw(atext); 
 
 			_gameObjectsManager.UpdateAll();
 			_gameObjectsManager.DrawAll(_mainWindow);
-
-			_mainWindow.draw(atext); 
-
 
 			// Finally, display rendered frame on screen 
 			_mainWindow.display(); 
