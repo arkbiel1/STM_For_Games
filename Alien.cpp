@@ -5,6 +5,8 @@
 //#include <cmath>
 //#include <math.h>
 
+//Spaceship * Game::player;
+
 
 Alien::Alien():
 	velocity(0)
@@ -39,9 +41,9 @@ void Alien::Update(float elapsedTime)
 
 	sf::Vector2f position = GetSprite().getPosition(); // position vector
 
-	printf(" alien position.x: %f \n", position.x);
+	/*printf(" alien position.x: %f \n", position.x);
 
-	printf(" alien position.y: %f \n", position.y);
+	printf(" alien position.y: %f \n", position.y);*/
 
 	//float move = 80*elapsedTime;
 
@@ -54,14 +56,15 @@ void Alien::Update(float elapsedTime)
 
 	//GetSprite().move(0,0); // move
 
-	//Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get("Spaceship"));
-	//if(spaceship != NULL)
-	//	{
-	//		sf::Rect<float> spaceshipBounds = spaceship->GetBoundingRect();
+	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get("Spaceship"));
+	if(spaceship != NULL)
+		{
+			sf::Rect<float> spaceshipBounds = spaceship->GetBoundingRect();
 
-	//		if(spaceshipBounds.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
-	//		{ 
-	//			printf("COLLLLLLLLLLLLLLLLLLLLLLLISION \n\n\n\n\n\n\n");
-	//		}
-	//	}
+			if(spaceshipBounds.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
+			{ 
+				spaceship->reduceHealth(1);
+				//Spaceship::health->reduceHealth(1);
+			}
+		}
 }

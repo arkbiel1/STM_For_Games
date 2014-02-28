@@ -11,7 +11,7 @@ Spaceship::Spaceship():
 	MaxLAcc(150),
 	LAcc(0),
 	AngAcc(0),
-	health(116),
+	health(200),
 	rotation(0)
 { 
 	//_maxVelocity(10.0f);
@@ -197,21 +197,14 @@ void Spaceship::Update(float elapsedTime)
 	if(AngAcc < -50)
 		AngAcc = -50; 
 
-	Alien* alien = dynamic_cast<Alien*>(Game::GetGameObjectsManager().Get("Alien"));
-	if(alien != NULL)
-	{
-		sf::Rect<float> alienCol = alien->GetBoundingRect();
+	//Alien* alien = dynamic_cast<Alien*>(Game::GetGameObjectsManager().Get("Alien"));
+	//if(alien != NULL)
+	//{
+	//	sf::Rect<float> alienCol = alien->GetBoundingRect();
 
-		if(alienCol.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
-		{ 
-			//printf("COLLLLLLLLLLLLLLLLLLLLLLLISION \n\n\n\n\n\n\n\n\n\n\n\n");
-			//GetSprite().move(0, +200);
-
-			//int haha = Spaceship::getHealth();
-
-			Spaceship::reduceHealth(1);
-
-			//printf("spaceship.cpp health : %d\n\n\n\n\n\n\n\n\n\n\n\n", Spaceship::getHealth());
-		}
-	}
+	//	if(alienCol.intersects(GetBoundingRect()))  //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
+	//	{ 
+	//		Spaceship::reduceHealth(1);
+	//	}
+	//}
 }

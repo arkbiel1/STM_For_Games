@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "GameObjects.h"
 
-
 class Alien :
 	public GameObjects
 {
@@ -17,5 +16,6 @@ float GetVelocity() const;
 
 private:
 
+	//static Spaceship * player;
 	float velocity;
 };
