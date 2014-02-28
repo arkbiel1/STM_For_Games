@@ -9,6 +9,9 @@ using namespace std;
 
 Spaceship * Game::player;
 
+sf::Sprite background;
+sf::Font font;
+
 // Converts an int into a string
 static inline std::string int2Str(int x)
 {
@@ -22,7 +25,7 @@ void Game::Initialize(void)
 	if(_gameState != Uninitialized)
 		return;
 
-	_mainWindow.setFramerateLimit(60);
+	_mainWindow.setFramerateLimit(50);
 
 	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),"STM Game");
 
@@ -40,6 +43,34 @@ void Game::Initialize(void)
 	
 	player = spaceship;
 
+	// initialize stars
+
+	sf::Texture stars;
+
+	if (!stars.loadFromFile("img/stars.png"))
+	{
+		// error...
+		printf("File not found");
+	}
+
+	//sf::Sprite background;
+	stars.setRepeated(true);
+	background.setTexture(stars);
+	background.setTextureRect(sf::IntRect(0,0,Game::SCREEN_WIDTH,Game::SCREEN_HEIGHT));
+
+	//background = sprite;
+
+	//initialize font
+	//sf::Font font;
+
+	// Load it from a file
+	if (!font.loadFromFile("font/sansation.ttf"))
+	{
+		printf("Error loading font\n");
+	}
+
+	
+	
 	_gameState = Game::Playing;
 
 
@@ -83,47 +114,14 @@ void Game::GameLoop()
 	sf::Event currentEvent;
 	_mainWindow.pollEvent(currentEvent);
 
-	// draw stars
+	////create a font
+	//sf::Font font;
 
-	sf::Texture stars;
-
-	if (!stars.loadFromFile("img/stars.png"))
-	{
-		// error...
-		printf("File not found");
-	}
-
-	sf::Sprite sprite;
-	stars.setRepeated(true);
-	sprite.setTexture(stars);
-	sprite.setTextureRect(sf::IntRect(0,0,Game::SCREEN_WIDTH,Game::SCREEN_HEIGHT));
-	//_mainWindow.clear();
-
-	//create a font
-	sf::Font font;
-
-	// Load it from a file
-	if (!font.loadFromFile("font/sansation.ttf"))
-	{
-		printf("Error loading font\n");
-	}
-		
-	//////	
-	////////int health3 = Game::Initialize.health2;
-
-	////////int efdefe = 12;
-
-	/*printf("game.cpp health : %d\n", health3);
-	printf("game.cpp health : %d\n", health3);
-	printf("game.cpp health : %d\n", health3);
-	printf("game.cpp health : %d\n", health3);
-	printf("game.cpp health : %d\n", health3);
-	printf("game.cpp health : %d\n", health3);*/
-
-
-	//Spaceship::reduceHealth();
-
-	//int health = 100; //Spaceship::health;
+	//// Load it from a file
+	//if (!font.loadFromFile("font/sansation.ttf"))
+	//{
+	//	printf("Error loading font\n");
+	//}
 
 	string healStr = int2Str(player->getHealth());
 
@@ -141,6 +139,7 @@ void Game::GameLoop()
 
 	//draw the string
 
+	//atext2.setString("Health: "); 
 
 	switch(_gameState)
 	{
@@ -153,7 +152,8 @@ void Game::GameLoop()
 
 			_mainWindow.clear(sf::Color(sf::Color(0,0,0)));
 
-			_mainWindow.draw(sprite);
+			_mainWindow.draw(background);
+
 			_mainWindow.draw(atext); 
 
 			_gameObjectsManager.UpdateAll();
