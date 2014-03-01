@@ -32,6 +32,12 @@ void Spaceship::Draw(sf::RenderWindow & rw)
 	GameObjects::Draw(rw);
 }
 
+//sf::Vector2f Spaceship::GetPosition() const
+//{
+//	sf::Vector2f spaceshipPosition = Spaceship::GetPosition();
+//	return spaceshipPosition;
+//}
+
 float Spaceship::GetLAcc() const
 {
 	return LAcc;

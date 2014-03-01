@@ -12,6 +12,8 @@ public:
 
 	virtual void SetPosition(float x, float y);
 
+	static sf::Vector2f GetPosition2();
+
 	virtual sf::Vector2f GetPosition() const;
 	virtual float GetWidth() const;
 	virtual float GetHeight() const;

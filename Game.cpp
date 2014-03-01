@@ -30,8 +30,8 @@ void Game::Initialize(void)
 	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),"STM Game");
 
 
-	Alien *alien = new Alien();
-	alien->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
+	Alien *alien1 = new Alien();
+	alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
 
 	Alien *alien2 = new Alien();
 	alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
@@ -60,7 +60,7 @@ void Game::Initialize(void)
 	Alien *alien10 = new Alien();
 	alien10->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600+100));
 
-	_gameObjectsManager.Add("Alien", alien);
+	_gameObjectsManager.Add("Alien1", alien1);
 	_gameObjectsManager.Add("Alien2", alien2);
 	_gameObjectsManager.Add("Alien3", alien3);
 	_gameObjectsManager.Add("Alien4", alien4);
@@ -178,6 +178,7 @@ void Game::GameLoop()
 			atext.setCharacterSize(80);
 			atext.setPosition(SCREEN_WIDTH/2-250, SCREEN_HEIGHT/2-50);
 			atext.setString("GAME OVER");
+			_gameObjectsManager.Remove("Spaceship");
 		}	
 
 	//draw the string
