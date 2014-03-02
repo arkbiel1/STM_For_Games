@@ -67,6 +67,8 @@ int main()
 					if (mouseY > 5 && mouseY < 150)
 					{
 						printf("FLOCKING");
+						window.close();
+						Game::Initialize(1);
 						
 					}
 					else if (mouseY > 150 && mouseY < 300)
@@ -77,7 +79,7 @@ int main()
 					{
 						printf("A*");
 						window.close();
-						Game::Initialize();
+						Game::Initialize(3);
 					}
 					else if (mouseY > 450)
 					{

@@ -85,7 +85,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Alien.h" />
+    <ClInclude Include="AlienA.h" />
+    <ClInclude Include="AlienF.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObjects.h" />
     <ClInclude Include="GameObjectsManager.h" />
@@ -94,7 +95,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="AlienF.cpp" />
+    <ClCompile Include="AlienA.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObjects.cpp" />
     <ClCompile Include="GameObjectsManager.cpp" />

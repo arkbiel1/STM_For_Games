@@ -2,14 +2,15 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "Spaceship.h"
-#include "Alien.h"
+#include "AlienA.h"
+#include "AlienF.h"
 #include "GameObjectsManager.h"
 
 class Game
 {
 
 public:
-  static void Initialize();
+  static void Initialize(int type);
   static sf::RenderWindow& GetWindow();
   const static sf::Event& GetInput();
   const static GameObjectsManager& GetGameObjectsManager();

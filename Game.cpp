@@ -20,7 +20,7 @@ static inline std::string int2Str(int x)
 	return type.str();
 }
 
-void Game::Initialize(void)
+void Game::Initialize(int type)
 {
 	if(_gameState != Uninitialized)
 		return;
@@ -29,20 +29,23 @@ void Game::Initialize(void)
 
 	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),"STM Game");
 
+	
 
-	Alien *alien1 = new Alien();
+	if (type == 1)
+	{
+	AlienF *alien1 = new AlienF();
 	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
 
-	Alien *alien2 = new Alien();
+	AlienF *alien2 = new AlienF();
 	//alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
 
-	Alien *alien3 = new Alien();
+	AlienF *alien3 = new AlienF();
 	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
 
-	Alien *alien4 = new Alien();
+	AlienF *alien4 = new AlienF();
 	//alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
 
-	Alien *alien5 = new Alien();
+	AlienF *alien5 = new AlienF();
 	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
 
 	_gameObjectsManager.Add("Alien1", alien1);
@@ -50,6 +53,31 @@ void Game::Initialize(void)
 	_gameObjectsManager.Add("Alien3", alien3);
 	_gameObjectsManager.Add("Alien4", alien4);
 	_gameObjectsManager.Add("Alien5", alien5);
+	}
+
+	else if (type == 3)
+	{
+	AlienA *alien1 = new AlienA();
+	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
+
+	AlienA *alien2 = new AlienA();
+	//alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
+
+	AlienA *alien3 = new AlienA();
+	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
+
+	AlienA *alien4 = new AlienA();
+	//alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
+
+	AlienA *alien5 = new AlienA();
+	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
+
+	_gameObjectsManager.Add("Alien1", alien1);
+	_gameObjectsManager.Add("Alien2", alien2);
+	_gameObjectsManager.Add("Alien3", alien3);
+	_gameObjectsManager.Add("Alien4", alien4);
+	_gameObjectsManager.Add("Alien5", alien5);
+	}
 
 	Spaceship *spaceship = new Spaceship();
 	spaceship->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-100));

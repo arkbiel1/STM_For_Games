@@ -36,7 +36,10 @@
     <ClInclude Include="GameObjectsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Alien.h">
+    <ClInclude Include="AlienA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlienF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,7 +65,10 @@
     <ClCompile Include="GameObjectsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Alien.cpp">
+    <ClCompile Include="AlienF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlienA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
