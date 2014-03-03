@@ -37,7 +37,8 @@ void Game::Initialize(int type)
 	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
 
 	AlienF *alien2 = new AlienF();
-	//alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
+	//alien2->SetPosition((SCREEN_WIDTH/2+225),(SCREEN_HEIGHT-600));
+	alien2->SetPosition(225,0);
 
 	AlienF *alien3 = new AlienF();
 	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));

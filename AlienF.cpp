@@ -18,6 +18,10 @@ float alienf4y = 0;
 float alienf5x = 0;
 float alienf5y = 0;
 
+float alienSpeed = 0.2;
+
+int neighborCount = 0;
+
 sf::Vector2f alienf1Vect;
 sf::Vector2f alienf2Vect;
 sf::Vector2f alienf3Vect;
@@ -104,6 +108,7 @@ void AlienF::Update(float elapsedTime)
 				//Spaceship::health->reduceHealth(1);
 			}
 
+			// first alien in flocking steers towards the spaceship
 			AlienF* alien1 = dynamic_cast<AlienF*>(Game::GetGameObjectsManager().Get("Alien1"));
 			if(alien1 != NULL)
 				{
@@ -135,20 +140,84 @@ void AlienF::Update(float elapsedTime)
 
 				//printf("alienf2Vect: %f\n", alienf2Vect);
 
-				float dir2x = (spaceshipVect.x - alienf2Vect.x);
+				//Cohesion   Have each unit steer toward the average position of its neighbors.
+				//Alignment  Have each unit steer so as to align itself to the average heading of its neighbors.
+				//Separation Have each unit steer to avoid hitting its neighbors
+
+				//if alien1 a neighbour
+				if (alienf2Vect.x - alienf1Vect.x < 100  && alienf2Vect.x - alienf1Vect.x > -100
+					&& alienf2Vect.y - alienf1Vect.y < 100 && alienf2Vect.y - alienf1Vect.y > -100)
+					{
+						//alienf2x += alienf1Vect.x;
+						/*printf("Neighbors !\n");
+						printf("Neighbors !\n");
+						printf("Neighbors !\n");*/
+						/*printf("alienf1Vect.x %f\n", alienf1Vect.x);
+						printf("alienf1Vect.y %f\n", alienf1Vect.y);
+						printf("alienf2Vect.x %f\n", alienf2Vect.x);
+						printf("alienf2Vect.y %f\n", alienf2Vect.y);
+						alienf2x++;
+						alienf2y++;*/
+
+						// cohesion & alignment
+						float dir2x = (alienf1Vect.x - alienf2Vect.x);
+						float dir2y = (alienf1Vect.y - alienf2Vect.y);
+
+						float hyp2 = sqrt(dir2x*dir2x + dir2y*dir2y);
+
+						dir2x /= hyp2;
+						dir2y /= hyp2;
+
+						//printf("dirx: %f\n", dir1x);
+						//printf("diry: %f\n", dir1y);
+
+						
+						//GetSprite().move(enemyx,enemyy);
+						
+
+						// separation
+						if (alienf2Vect.x - alienf1Vect.x < 30 && alienf2Vect.x - alienf1Vect.x > -30
+							&& alienf2Vect.y - alienf1Vect.y < 30 && alienf2Vect.y - alienf1Vect.y > -30)
+						{
+							alienSpeed = 0;
+						}
+
+						alienf2x += dir2x*alienSpeed;
+						alienf2y += dir2y*alienSpeed;
+
+						/*printf("TOO CLOSE!\n");
+						printf("TOO CLOSE!\n");
+						printf("TOO CLOSE!\n");*/
+
+						// move
+						alien2->SetPosition(alienf2x+225,alienf2y);
+
+						alienSpeed = 0.2;
+
+						//alienf2y += alien2->GetPosition.y;
+						//neighborCount++;
+					}
+ 
+				//printf("alienf2x: %f\n", alienf2x);
+				//printf("alienf2y: %f\n", alienf2y);
+
+				/*float dir2x = (spaceshipVect.x - alienf2Vect.x);
 				float dir2y = (spaceshipVect.y - alienf2Vect.y);
 
 				float hyp2 = sqrt(dir2x*dir2x + dir2y*dir2y);
 
 				dir2x /= hyp2;
-				dir2y /= hyp2;
+				dir2y /= hyp2;*/
 
 				//printf("dirx: %f\n", dir2x);
 				//printf("diry: %f\n", dir2y);
 
-				alienf2x += dir2x*0.2;
-				alienf2y += dir2y*0.2;
+				/*alienf2x += dir2x*0.2;
+				alienf2y += dir2y*0.2;*/
 				//GetSprite().move(enemyx,enemyy);
+				//alien2->SetPosition(225,0);
+				//alien2->SetPosition(alienf2x+225,alienf2y);
+
 				alien2->SetPosition(alienf2x+225,alienf2y);
 
 				//printf("alienf2Vect: %f\n", alienf2Vect);
@@ -176,7 +245,8 @@ void AlienF::Update(float elapsedTime)
 				alienf3x += dir3x*0.2;
 				alienf3y += dir3y*0.2;
 				//GetSprite().move(enemyx,enemyy);
-				alien3->SetPosition(alienf3x+400,alienf3y);
+				//alien3->SetPosition(alienf3x+400,alienf3y);
+				alien3->SetPosition(400,0);
 
 				//printf("alienf2Vect: %f\n", alienf2Vect);
 			}
@@ -203,7 +273,8 @@ void AlienF::Update(float elapsedTime)
 				alienf4x += dir4x*0.2;
 				alienf4y += dir4y*0.2;
 				//GetSprite().move(enemyx,enemyy);
-				alien4->SetPosition(alienf4x+625,alienf4y);
+				alien4->SetPosition(625,0);
+				//alien4->SetPosition(alienf4x+625,alienf4y);
 
 				//printf("alienf2Vect: %f\n", alienf2Vect);
 			}
