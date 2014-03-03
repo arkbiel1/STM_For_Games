@@ -4,6 +4,7 @@
 #include "Spaceship.h"
 #include "AlienA.h"
 #include "AlienF.h"
+#include "AlienS.h"
 #include "GameObjectsManager.h"
 
 class Game

@@ -74,6 +74,8 @@ int main()
 					else if (mouseY > 150 && mouseY < 300)
 					{
 						printf("SWARMING");
+						window.close();
+						Game::Initialize(2);
 					}
 					else if (mouseY > 300 && mouseY < 450)
 					{

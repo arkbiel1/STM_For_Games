@@ -56,6 +56,7 @@ float AlienA::GetVelocity() const
 void AlienA::Update(float elapsedTime)
 {
 
+	float alienSpeed = 0.2;
 	// Position
 
 	//sf::Vector2f alienVect = GetSprite().getPosition(); // position vector

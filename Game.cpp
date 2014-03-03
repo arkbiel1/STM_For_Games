@@ -56,6 +56,30 @@ void Game::Initialize(int type)
 	_gameObjectsManager.Add("Alien5", alien5);
 	}
 
+	else if (type == 2)
+	{
+	AlienS *alien1 = new AlienS();
+	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
+
+	AlienS *alien2 = new AlienS();
+	//alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
+
+	AlienS *alien3 = new AlienS();
+	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
+
+	AlienS *alien4 = new AlienS();
+	//alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
+
+	AlienS *alien5 = new AlienS();
+	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
+
+	_gameObjectsManager.Add("Alien1", alien1);
+	_gameObjectsManager.Add("Alien2", alien2);
+	_gameObjectsManager.Add("Alien3", alien3);
+	_gameObjectsManager.Add("Alien4", alien4);
+	_gameObjectsManager.Add("Alien5", alien5);
+	}
+
 	else if (type == 3)
 	{
 	AlienA *alien1 = new AlienA();

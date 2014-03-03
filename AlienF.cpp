@@ -18,7 +18,7 @@ float alienf4y = 0;
 float alienf5x = 0;
 float alienf5y = 0;
 
-float alienSpeed = 0.2;
+//float alienSpeed = 0.2;
 
 int neighborCount = 0;
 
@@ -59,7 +59,7 @@ float AlienF::GetVelocity() const
 
 void AlienF::Update(float elapsedTime)
 {
-
+	float alienSpeed = 0.2;
 	// Position
 
 	//sf::Vector2f alienVect = GetSprite().getPosition(); // position vector
