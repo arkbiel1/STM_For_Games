@@ -34,6 +34,7 @@ void Game::Initialize(int type)
 	if (type == 1)
 	{
 	AlienF *alien1 = new AlienF();
+	alien1->SetPosition(50,0);
 	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
 
 	AlienF *alien2 = new AlienF();
@@ -41,13 +42,17 @@ void Game::Initialize(int type)
 	alien2->SetPosition(225,0);
 
 	AlienF *alien3 = new AlienF();
+	alien3->SetPosition(400,0);
 	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
 
 	AlienF *alien4 = new AlienF();
+	alien4->SetPosition(625,0);
 	//alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
-
+	
 	AlienF *alien5 = new AlienF();
+	alien5->SetPosition(750,0);
 	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
+	
 
 	_gameObjectsManager.Add("Alien1", alien1);
 	_gameObjectsManager.Add("Alien2", alien2);
@@ -59,18 +64,23 @@ void Game::Initialize(int type)
 	else if (type == 2)
 	{
 	AlienS *alien1 = new AlienS();
+	alien1->SetPosition(50,0);
 	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
 
 	AlienS *alien2 = new AlienS();
+	alien2->SetPosition(225,0);
 	//alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
 
 	AlienS *alien3 = new AlienS();
+	alien3->SetPosition(400,0);
 	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
 
 	AlienS *alien4 = new AlienS();
+	alien4->SetPosition(625,0);
 	//alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
 
 	AlienS *alien5 = new AlienS();
+	alien5->SetPosition(750,0);
 	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
 
 	_gameObjectsManager.Add("Alien1", alien1);
@@ -83,18 +93,23 @@ void Game::Initialize(int type)
 	else if (type == 3)
 	{
 	AlienA *alien1 = new AlienA();
+	alien1->SetPosition(50,0);
 	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
 
 	AlienA *alien2 = new AlienA();
+	alien2->SetPosition(225,0);
 	//alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
 
 	AlienA *alien3 = new AlienA();
+	alien3->SetPosition(400,0);
 	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
 
 	AlienA *alien4 = new AlienA();
+	alien4->SetPosition(625,0);
 	//alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
 
 	AlienA *alien5 = new AlienA();
+	alien5->SetPosition(750,0);
 	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
 
 	_gameObjectsManager.Add("Alien1", alien1);

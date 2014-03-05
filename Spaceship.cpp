@@ -11,7 +11,7 @@ Spaceship::Spaceship():
 	MaxLAcc(150),
 	LAcc(0),
 	AngAcc(0),
-	health(500),
+	health(2000),
 	rotation(0)
 { 
 	//_maxVelocity(10.0f);
