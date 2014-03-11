@@ -7,6 +7,8 @@
 
 //Spaceship * Game::player;
 
+int offset2 = 50;
+
 float alienA1x = 0;
 float alienA1y = 0;
 float alienA2x = 0;
@@ -61,26 +63,48 @@ void AlienA::Update(float elapsedTime)
 	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get("Spaceship"));
 	sf::Vector2f spaceshipVect; 
 
-	// load aliens
-	AlienA* alien1 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien1"));
-	AlienA* alien2 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien2"));
-	AlienA* alien3 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien3"));
-	AlienA* alien4 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien4"));
-	AlienA* alien5 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien5"));
+	//for (int index = 1; index < 10; index++)
+	//{
+	//	//std::string s = std::to_string(index);
+	//	AlienA* alien = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien"));
+	//	//alienA1Vect = alien->GetPosition();
 
-	// load alien coordinates
-	alienA1Vect = alien1->GetPosition();
-	alienA2Vect = alien2->GetPosition();
-	alienA3Vect = alien3->GetPosition();
-	alienA4Vect = alien4->GetPosition();
-	alienA5Vect = alien5->GetPosition();
+	//	////alien1 movement
+	//	//float dir1x = (spaceshipVect.x - alienA1Vect.x);
+	//	//float dir1y = (spaceshipVect.y - alienA1Vect.y);
+	//	//float hyp1 = sqrt(dir1x*dir1x + dir1y*dir1y);
+	//	//
+	//	//dir1x /= hyp1;
+	//	//dir1y /= hyp1;
+
+	//	//alienA1x += dir1x*alienSpeed;
+	//	//alienA1y += dir1y*alienSpeed;
+	//	//GetSprite().move(enemyx,enemyy);
+	//	alien->SetPosition(50+offset2,0);
+	//	offset2+50;
+	//}
+
+	
+	// load aliens
+	//AlienA* alien1 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien1"));
+	//AlienA* alien2 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien2"));
+	//AlienA* alien3 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien3"));
+	//AlienA* alien4 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien4"));
+	//AlienA* alien5 = dynamic_cast<AlienA*>(Game::GetGameObjectsManager().Get("Alien5"));
+
+	//// load alien coordinates
+	//alienA1Vect = alien1->GetPosition();
+	//alienA2Vect = alien2->GetPosition();
+	//alienA3Vect = alien3->GetPosition();
+	//alienA4Vect = alien4->GetPosition();
+	//alienA5Vect = alien5->GetPosition();
 	
 	spaceshipVect = spaceship->GetPosition();
 
-	/*printf("spaceshipVect: %f, %f\n", spaceshipVect.x, spaceshipVect.y);
 	printf("spaceshipVect: %f, %f\n", spaceshipVect.x, spaceshipVect.y);
 	printf("spaceshipVect: %f, %f\n", spaceshipVect.x, spaceshipVect.y);
-	printf("spaceshipVect: %f, %f\n", spaceshipVect.x, spaceshipVect.y);*/
+	printf("spaceshipVect: %f, %f\n", spaceshipVect.x, spaceshipVect.y);
+	printf("spaceshipVect: %f, %f\n", spaceshipVect.x, spaceshipVect.y);
 
 	sf::Rect<float> spaceshipBounds = spaceship->GetBoundingRect();
 
@@ -90,18 +114,18 @@ void AlienA::Update(float elapsedTime)
 		//Spaceship::health->reduceHealth(1);
 	}
 
-	// alien1 movement
-	float dir1x = (spaceshipVect.x - alienA1Vect.x);
-	float dir1y = (spaceshipVect.y - alienA1Vect.y);
-	float hyp1 = sqrt(dir1x*dir1x + dir1y*dir1y);
-	
-	dir1x /= hyp1;
-	dir1y /= hyp1;
+	//// alien1 movement
+	//float dir1x = (spaceshipVect.x - alienA1Vect.x);
+	//float dir1y = (spaceshipVect.y - alienA1Vect.y);
+	//float hyp1 = sqrt(dir1x*dir1x + dir1y*dir1y);
+	//
+	//dir1x /= hyp1;
+	//dir1y /= hyp1;
 
-	alienA1x += dir1x*alienSpeed;
-	alienA1y += dir1y*alienSpeed;
-	//GetSprite().move(enemyx,enemyy);
-	alien1->SetPosition(alienA1x+50,alienA1y);
+	//alienA1x += dir1x*alienSpeed;
+	//alienA1y += dir1y*alienSpeed;
+	////GetSprite().move(enemyx,enemyy);
+	//alien1->SetPosition(alienA1x+50,alienA1y);
 
 	// alien2 movement
 	float dir2x = (spaceshipVect.x - alienA2Vect.x);
@@ -114,7 +138,7 @@ void AlienA::Update(float elapsedTime)
 	alienA2x += dir2x*alienSpeed;
 	alienA2y += dir2y*alienSpeed;
 	//GetSprite().move(enemyx,enemyy);
-	alien2->SetPosition(alienA2x+225,alienA2y);
+	//alien2->SetPosition(alienA2x+225,alienA2y);
 
 	// alien3 movement
 	float dir3x = (spaceshipVect.x - alienA3Vect.x);
@@ -128,7 +152,7 @@ void AlienA::Update(float elapsedTime)
 	alienA3x += dir3x*alienSpeed;
 	alienA3y += dir3y*alienSpeed;
 	//GetSprite().move(enemyx,enemyy);
-	alien3->SetPosition(alienA3x+400,alienA3y);
+	//alien3->SetPosition(alienA3x+400,alienA3y);
 
 	// alien4 movement
 	float dir4x = (spaceshipVect.x - alienA4Vect.x);
@@ -142,7 +166,7 @@ void AlienA::Update(float elapsedTime)
 	alienA4x += dir4x*alienSpeed;
 	alienA4y += dir4y*alienSpeed;
 	//GetSprite().move(enemyx,enemyy);
-	alien4->SetPosition(alienA4x+625,alienA4y);
+	//alien4->SetPosition(alienA4x+625,alienA4y);
 
 	// alien5 movement
 	float dir5x = (spaceshipVect.x - alienA5Vect.x);
@@ -156,7 +180,7 @@ void AlienA::Update(float elapsedTime)
 	alienA5y += dir5y*alienSpeed;
 	//GetSprite().move(enemyx,enemyy);
 				
-	alien5->SetPosition(alienA5x+750,alienA5y);
+	//alien5->SetPosition(alienA5x+750,alienA5y);
 	
 	//GetSprite().move(1,1);
 	//GetSprite().move(moveTowardx,moveTowardy);
