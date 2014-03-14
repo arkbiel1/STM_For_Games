@@ -10,14 +10,14 @@ GameObjectsManager::~GameObjectsManager()
  std::for_each(_gameObjects.begin(),_gameObjects.end(),GameObjectsDeallocator());
 }
 
-void GameObjectsManager::Add(std::string name, GameObjects* gameObject)
+void GameObjectsManager::Add(int index, GameObjects* gameObject)
 {
- _gameObjects.insert(std::pair<std::string,GameObjects*>(name,gameObject));
+ _gameObjects.insert(std::pair<int,GameObjects*>(index,gameObject));
 }
 
-void GameObjectsManager::Remove(std::string name)
+void GameObjectsManager::Remove(int index)
 {
- std::map<std::string, GameObjects*>::iterator results = _gameObjects.find(name);
+ std::map<int, GameObjects*>::iterator results = _gameObjects.find(index);
  if(results != _gameObjects.end() )
  {
   delete results->second;
@@ -25,9 +25,9 @@ void GameObjectsManager::Remove(std::string name)
  }
 }
 
-GameObjects* GameObjectsManager::Get(std::string name) const
+GameObjects* GameObjectsManager::Get(int index) const
 {
- std::map<std::string, GameObjects*>::const_iterator results = _gameObjects.find(name);
+ std::map<int, GameObjects*>::const_iterator results = _gameObjects.find(index);
  if(results == _gameObjects.end() )
   return NULL;
   return results->second;  
@@ -40,7 +40,7 @@ int GameObjectsManager::GetObjectsCount() const
 
 void GameObjectsManager::DrawAll(sf::RenderWindow& renderWindow)
 {
- std::map<std::string,GameObjects*>::const_iterator itr = _gameObjects.begin();
+ std::map<int,GameObjects*>::const_iterator itr = _gameObjects.begin();
  while(itr != _gameObjects.end())
  {
   itr->second->Draw(renderWindow);
@@ -50,7 +50,7 @@ void GameObjectsManager::DrawAll(sf::RenderWindow& renderWindow)
 
 void GameObjectsManager::UpdateAll()
 {
-	std::map<std::string,GameObjects*>::const_iterator itr = _gameObjects.begin();
+	std::map<int,GameObjects*>::const_iterator itr = _gameObjects.begin();
 	float timeDelta = clock.restart().asSeconds();
 
 	while(itr != _gameObjects.end())

@@ -14,8 +14,11 @@ void Draw(sf::RenderWindow& rw);
    
 float GetVelocity() const;
 
+int GetAlienNo() const;
+
 private:
 
 	//static Spaceship * player;
 	float velocity;
+	int alienNo;
 };

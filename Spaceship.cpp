@@ -116,24 +116,24 @@ void Spaceship::Update(float elapsedTime)
 	//printf(" movementY: %f \n", movementY);
 
 
-	printf(" LAcc: %f\n", LAcc);
-	printf(" AngAcc: %f\n", AngAcc);
-	printf(" position: %f,%f\n", position.x, position.y);
-	//printf("rotationLAcc: %f \n", rotationLAcc);
-	printf(" orientation: %f\n", orientation);
+	//printf(" LAcc: %f\n", LAcc);
+	//printf(" AngAcc: %f\n", AngAcc);
+	//printf(" position: %f,%f\n", position.x, position.y);
+	////printf("rotationLAcc: %f \n", rotationLAcc);
+	//printf(" orientation: %f\n", orientation);
 
-	printf(" rotation: %f\n", rotation);
-	printf(" speed: %f\n", speed);
+	//printf(" rotation: %f\n", rotation);
+	//printf(" speed: %f\n", speed);
 
 
-	printf(" SCREEN_WIDTH: %i\n ", Game::SCREEN_WIDTH);
-	printf(" SCREEN_HEIGHT: %i\n ", Game::SCREEN_HEIGHT);
+	//printf(" SCREEN_WIDTH: %i\n ", Game::SCREEN_WIDTH);
+	//printf(" SCREEN_HEIGHT: %i\n ", Game::SCREEN_HEIGHT);
 
 	float localbx = GetSprite().getLocalBounds().width/8;
 	float localby = GetSprite().getLocalBounds().height/8;
 
-	printf(" localbx: %f\n", localbx);
-	printf(" localby: %f\n", localby);
+	//printf(" localbx: %f\n", localbx);
+	//printf(" localby: %f\n", localby);
 
 
 	if(position.x < localbx)

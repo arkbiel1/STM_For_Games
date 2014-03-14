@@ -14,7 +14,10 @@ using namespace std;
 
 Spaceship * Game::player;
 
-int offset = 50;
+AlienA * Game::alienAObj;
+
+
+int offset = 0;
 
 sf::Sprite background;
 sf::Font font;
@@ -36,7 +39,6 @@ void Game::Initialize(int type)
 
 	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),"STM Game");
 
-	
 
 	if (type == 1)
 	{
@@ -59,13 +61,13 @@ void Game::Initialize(int type)
 	AlienF *alien5 = new AlienF();
 	alien5->SetPosition(750,0);
 	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
-	
+	/*
 
 	_gameObjectsManager.Add("Alien1", alien1);
 	_gameObjectsManager.Add("Alien2", alien2);
 	_gameObjectsManager.Add("Alien3", alien3);
 	_gameObjectsManager.Add("Alien4", alien4);
-	_gameObjectsManager.Add("Alien5", alien5);
+	_gameObjectsManager.Add("Alien5", alien5);*/
 	}
 
 	else if (type == 2)
@@ -89,61 +91,41 @@ void Game::Initialize(int type)
 	AlienS *alien5 = new AlienS();
 	alien5->SetPosition(750,0);
 	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
-
+/*
 	_gameObjectsManager.Add("Alien1", alien1);
-	_gameObjectsManager.Add("Alien2", alien2);
-	_gameObjectsManager.Add("Alien3", alien3);
-	_gameObjectsManager.Add("Alien4", alien4);
-	_gameObjectsManager.Add("Alien5", alien5);
-	}
-
-	else if (type == 3)
-	{
-		int alienAno = 30;
-		AlienA** alien = new AlienA*[alienAno];
-
-		//AlienA *alien = new AlienA[10];
-
-		for (int index = 0; index < alienAno; index++)
-		{
-		alien[index] = new AlienA();
-		//AlienA *alien = new AlienA();
-		//alien.push_back(AlienA());
-		alien[index]->SetPosition(offset,0);
-		
-		offset = 30*index;
-
-		////alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
-
-		//AlienA *alien2 = new AlienA();
-		//alien2->SetPosition(225,0);
-		////alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
-
-		//AlienA *alien3 = new AlienA();
-		//alien3->SetPosition(400,0);
-		////alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
-
-		//AlienA *alien4 = new AlienA();
-		//alien4->SetPosition(625,0);
-		////alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
-
-		//AlienA *alien5 = new AlienA();
-		//alien5->SetPosition(750,0);
-		////alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
-
-		_gameObjectsManager.Add("Alien%s" + index, alien[index]);
-		}
-	/*
 	_gameObjectsManager.Add("Alien2", alien2);
 	_gameObjectsManager.Add("Alien3", alien3);
 	_gameObjectsManager.Add("Alien4", alien4);
 	_gameObjectsManager.Add("Alien5", alien5);*/
 	}
 
+	else if (type == 3)
+	{
+		AlienA *Alienaa = new AlienA();
+		alienAObj = Alienaa;
+
+		int alienNo = alienAObj->GetAlienNo();
+
+		//printf("AlienNo Game.cpp: %i /n", alienNo);
+
+		
+
+		// array of pointer to aliens
+		AlienA** alien = new AlienA*[alienNo];
+
+		for (int index = 1; index < alienNo+1 ; index++)
+		{
+		alien[index] = new AlienA();
+
+		//alien[index]->SetPosition((SCREEN_WIDTH/2)+100*index,(SCREEN_HEIGHT-600));
+		_gameObjectsManager.Add(index, alien[index]);
+		}
+	}
+
 	Spaceship *spaceship = new Spaceship();
 	spaceship->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-100));
 
-	_gameObjectsManager.Add("Spaceship", spaceship);
+	_gameObjectsManager.Add(0, spaceship);
 
 	player = spaceship;
 
@@ -241,14 +223,14 @@ void Game::GameLoop()
 	//int health = player->getHealth();
 	atext.setString("Health: "  + healStr); 
 
-	/*if (player->getHealth() < 1)
+	if (player->getHealth() < 1)
 		{
 			atext.setCharacterSize(80);
 			atext.setPosition(SCREEN_WIDTH/2-250, SCREEN_HEIGHT/2-50);
 			atext.setString("GAME OVER");
-			_gameObjectsManager.Remove("Spaceship");
+			_gameObjectsManager.Remove(0);
 			_mainWindow.clear();
-		}	*/
+		}	
 
 	//draw the string
 
