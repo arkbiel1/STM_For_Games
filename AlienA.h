@@ -13,12 +13,10 @@ void Update(float elapsedTime);
 void Draw(sf::RenderWindow& rw);
    
 float GetVelocity() const;
-
 int GetAlienNo() const;
 
 private:
 
-	//static Spaceship * player;
-	float velocity;
+	float speed;
 	int alienNo;
 };

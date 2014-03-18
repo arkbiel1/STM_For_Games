@@ -25,6 +25,8 @@ private:
   static Spaceship * player;
 
   static AlienA * alienAObj;
+  static AlienF * alienFObj;
+  static AlienS * alienSObj;
 
   enum GameState { Uninitialized, Playing, Exiting };
   

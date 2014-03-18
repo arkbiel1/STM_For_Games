@@ -9,15 +9,14 @@
 using std::vector; // to 
 
 
-
 using namespace std;
 
 Spaceship * Game::player;
 
 AlienA * Game::alienAObj;
+AlienF * Game::alienFObj;
+AlienS * Game::alienSObj;
 
-
-int offset = 0;
 
 sf::Sprite background;
 sf::Font font;
@@ -42,82 +41,66 @@ void Game::Initialize(int type)
 
 	if (type == 1)
 	{
-	AlienF *alien1 = new AlienF();
-	alien1->SetPosition(50,0);
-	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
+		AlienF * AlienObj = new AlienF();
+		alienFObj = AlienObj;
 
-	AlienF *alien2 = new AlienF();
-	//alien2->SetPosition((SCREEN_WIDTH/2+225),(SCREEN_HEIGHT-600));
-	alien2->SetPosition(225,0);
+		int alienNo = alienFObj->GetAlienNo();
 
-	AlienF *alien3 = new AlienF();
-	alien3->SetPosition(400,0);
-	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
+		//printf("AlienNo Game.cpp: %i /n", alienNo);
 
-	AlienF *alien4 = new AlienF();
-	alien4->SetPosition(625,0);
-	//alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
-	
-	AlienF *alien5 = new AlienF();
-	alien5->SetPosition(750,0);
-	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
-	/*
+		// array of pointers to aliens
+		AlienF** alien = new AlienF*[alienNo];
 
-	_gameObjectsManager.Add("Alien1", alien1);
-	_gameObjectsManager.Add("Alien2", alien2);
-	_gameObjectsManager.Add("Alien3", alien3);
-	_gameObjectsManager.Add("Alien4", alien4);
-	_gameObjectsManager.Add("Alien5", alien5);*/
+		for (int index = 1; index < alienNo+1 ; index++)
+		{
+		alien[index] = new AlienF();
+
+		alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
+
+		_gameObjectsManager.Add(index, alien[index]);
+		}
 	}
 
 	else if (type == 2)
 	{
-	AlienS *alien1 = new AlienS();
-	alien1->SetPosition(50,0);
-	//alien1->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT-600));
+		AlienS * AlienObj = new AlienS();
+		alienSObj = AlienObj;
 
-	AlienS *alien2 = new AlienS();
-	alien2->SetPosition(225,0);
-	//alien2->SetPosition((SCREEN_WIDTH/2+150),(SCREEN_HEIGHT-600));
+		int alienNo = alienSObj->GetAlienNo();
 
-	AlienS *alien3 = new AlienS();
-	alien3->SetPosition(400,0);
-	//alien3->SetPosition((SCREEN_WIDTH/2+300),(SCREEN_HEIGHT-600));
+		//printf("AlienNo Game.cpp: %i /n", alienNo);
 
-	AlienS *alien4 = new AlienS();
-	alien4->SetPosition(625,0);
-	//alien4->SetPosition((SCREEN_WIDTH/2+450),(SCREEN_HEIGHT-600));
+		// array of pointers to aliens
+		AlienS** alien = new AlienS*[alienNo];
 
-	AlienS *alien5 = new AlienS();
-	alien5->SetPosition(750,0);
-	//alien5->SetPosition((SCREEN_WIDTH/2+600),(SCREEN_HEIGHT-600));
-/*
-	_gameObjectsManager.Add("Alien1", alien1);
-	_gameObjectsManager.Add("Alien2", alien2);
-	_gameObjectsManager.Add("Alien3", alien3);
-	_gameObjectsManager.Add("Alien4", alien4);
-	_gameObjectsManager.Add("Alien5", alien5);*/
+		for (int index = 1; index < alienNo+1 ; index++)
+		{
+		alien[index] = new AlienS();
+
+		alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
+
+		_gameObjectsManager.Add(index, alien[index]);
+		}
 	}
 
 	else if (type == 3)
 	{
-		AlienA *Alienaa = new AlienA();
-		alienAObj = Alienaa;
+		AlienA * AlienObj = new AlienA();
+		alienAObj = AlienObj;
 
 		int alienNo = alienAObj->GetAlienNo();
 
 		//printf("AlienNo Game.cpp: %i /n", alienNo);
 
-		
-
-		// array of pointer to aliens
+		// array of pointers to aliens
 		AlienA** alien = new AlienA*[alienNo];
 
 		for (int index = 1; index < alienNo+1 ; index++)
 		{
 		alien[index] = new AlienA();
 
-		//alien[index]->SetPosition((SCREEN_WIDTH/2)+100*index,(SCREEN_HEIGHT-600));
+		alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
+
 		_gameObjectsManager.Add(index, alien[index]);
 		}
 	}

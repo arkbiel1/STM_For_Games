@@ -98,7 +98,7 @@ void Spaceship::Update(float elapsedTime)
 
 	float speed = LAcc *elapsedTime;
 
-	float orientInRad = (M_PI/ 180) * (orientation -90) ;
+	float orientInRad = (M_PI/ 180) * (orientation -90);
 
 	// convert to radians
 	//pos.Z += PLAYER_SPEED * cos(roty_rad);
@@ -106,7 +106,6 @@ void Spaceship::Update(float elapsedTime)
 
 
 	float movementX = cos(orientInRad)*speed;
-
 	float movementY = sin(orientInRad)*speed;
 
 
@@ -172,7 +171,6 @@ void Spaceship::Update(float elapsedTime)
 
 
 	GetSprite().move(movementX, movementY);
-
 
 	GetSprite().rotate(rotation);
 
