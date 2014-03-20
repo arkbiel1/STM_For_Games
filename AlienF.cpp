@@ -61,39 +61,77 @@ void AlienF::Update(float elapsedTime)
 
 		float alienSpeed = speed*elapsedTime;
 
-		for (int index = 1; index < alienNo+1 ; index++)
+		// first alien movement
+		alien[1] = dynamic_cast<AlienF*>(Game::GetGameObjectsManager().Get(1));
+		sf::Vector2f alien1GetPos = alien[1]->GetPosition(); // position vector
+
+		// default next alien is 1st alien
+		sf::Vector2f nextAlienPos = alien[1]->GetPosition(); // position vector
+
+		float dirx = (spaceshipVect.x - alien1GetPos.x);
+		float diry = (spaceshipVect.y - alien1GetPos.y);
+
+		float hyp = sqrt(dirx*dirx + diry*diry);
+		dirx /= hyp;
+		diry /= hyp;
+
+		alien[1]->SetPosition(alien1GetPos.x + (dirx*alienSpeed)/alienNo, alien1GetPos.y + (diry*alienSpeed)/alienNo);
+
+		if (alienNo > 1)
 		{
-			alien[index] = dynamic_cast<AlienF*>(Game::GetGameObjectsManager().Get(index));
+			// alien group movement
+			for (int index = 2; index < alienNo+1 ; index++)
+			{
+				// default move towards alien1
+				sf::Vector2f firstAlienPos = alien[1]->GetPosition();
 
-			sf::Vector2f alienGetPos = alien[index]->GetPosition(); // position vector
+				// current alien position
+				alien[index] = dynamic_cast<AlienF*>(Game::GetGameObjectsManager().Get(index));
+				sf::Vector2f currentAlienPos = alien[index]->GetPosition();
 
-			//alien movement
-			float dirx = (spaceshipVect.x - alienGetPos.x);
-			float diry = (spaceshipVect.y - alienGetPos.y);
+				// move towards next
+				dirx = (nextAlienPos.x - currentAlienPos.x);
+				diry = (nextAlienPos.y - currentAlienPos.y);
+				// avoid collision
+				if (dirx < 10 && dirx > -10
+					&& diry < 10 && diry > -10)
+				{
+					alienSpeed = 0;
+				}
 
-			float hyp = sqrt(dirx*dirx + diry*diry);
+				hyp = sqrt(dirx*dirx + diry*diry);
+				dirx /= hyp;
+				diry /= hyp;
+				alien[index]->SetPosition(currentAlienPos.x + (dirx*alienSpeed)/alienNo, currentAlienPos.y + (diry*alienSpeed)/alienNo);
 
-			dirx /= hyp;
-			diry /= hyp;
+				// next alien - move towards it, and it moves towards first
+				if (index > 2 && alienNo > 2)
+				{
+					alien[index] = dynamic_cast<AlienF*>(Game::GetGameObjectsManager().Get(index));
+					nextAlienPos = alien[index]->GetPosition();
+					// move towards first
+					dirx = (firstAlienPos.x - nextAlienPos.x);
+					diry = (firstAlienPos.y - nextAlienPos.y);
+					// avoid collision
+					if (dirx < 10 && dirx > -10
+						&& diry < 10 && diry > -10)
+					{
+						alienSpeed = 0;
+					}
 
-			alien[index]->SetPosition(alienGetPos.x + (dirx*alienSpeed)/alienNo, alienGetPos.y + (diry*alienSpeed)/alienNo);
+					hyp = sqrt(dirx*dirx + diry*diry);
+					dirx /= hyp;
+					diry /= hyp;
+					alien[index]->SetPosition(nextAlienPos.x + (dirx*alienSpeed)/alienNo, nextAlienPos.y + (diry*alienSpeed)/alienNo);
+				}
+			
+				
+			}
 		}
 	}	
 }
-//
+//				 Have first alien steer toward spaceship
 //	//Cohesion   Have each unit steer toward the average position of its neighbors.
 //	//Alignment  Have each unit steer so as to align itself to the average heading of its neighbors.
 //	//Separation Have each unit steer to avoid hitting its neighbors
-//
-//	////if alien1 a neighbour
-//	//if (alienf2Vect.x - alienf1Vect.x < 100  && alienf2Vect.x - alienf1Vect.x > -100
-//	//	&& alienf2Vect.y - alienf1Vect.y < 100 && alienf2Vect.y - alienf1Vect.y > -100)
-//				
-//	//// separation
-//	//if (alienf2Vect.x - alienf1Vect.x < 30 && alienf2Vect.x - alienf1Vect.x > -30
-//	//	&& alienf2Vect.y - alienf1Vect.y < 30 && alienf2Vect.y - alienf1Vect.y > -30)
-//	//{
-//	//	alienSpeed = 0;
-//	//}
-//
-//						
+				

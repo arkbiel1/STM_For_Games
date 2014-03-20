@@ -82,18 +82,7 @@ void AlienS::Update(float elapsedTime)
 }
 
 //
-//	//Cohesion   Have each unit steer toward the average position of its neighbors.
-//	//Alignment  Have each unit steer so as to align itself to the average heading of its neighbors.
-//	//Separation Have each unit steer to avoid hitting its neighbors
-//
-//	////if alien1 a neighbour
-//	//if (alienS2Vect.x - alienS1Vect.x < 100  && alienS2Vect.x - alienS1Vect.x > -100
-//	//	&& alienS2Vect.y - alienS1Vect.y < 100 && alienS2Vect.y - alienS1Vect.y > -100)
-//				
-//	//// separation
-//	//if (alienS2Vect.x - alienS1Vect.x < 30 && alienS2Vect.x - alienS1Vect.x > -30
-//	//	&& alienS2Vect.y - alienS1Vect.y < 30 && alienS2Vect.y - alienS1Vect.y > -30)
-//	//{
-//	//	alienSpeed = 0;
-//	//}
+//	//Swarming   Have each unit steer toward the average position of the group
+//  //			 Have the average position of the group steer towards the spaceship
+//	
 						
