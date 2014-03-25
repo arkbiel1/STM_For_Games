@@ -17,6 +17,8 @@ AlienA * Game::alienAObj;
 AlienF * Game::alienFObj;
 AlienS * Game::alienSObj;
 
+Flocking * Game::alienFlocking;
+
 
 sf::Sprite background;
 sf::Font font;
@@ -98,6 +100,28 @@ void Game::Initialize(int type)
 		for (int index = 1; index < alienNo+1 ; index++)
 		{
 		alien[index] = new AlienA();
+
+		alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
+
+		_gameObjectsManager.Add(index, alien[index]);
+		}
+	}
+
+	else if (type == 4)
+	{
+		Flocking * AlienObj = new Flocking();
+		alienFlocking = AlienObj;
+
+		int alienNo = alienFlocking->GetAlienNo();
+
+		//printf("AlienNo Game.cpp: %i /n", alienNo);
+
+		// array of pointers to aliens
+		Flocking** alien = new Flocking*[alienNo];
+
+		for (int index = 1; index < alienNo+1 ; index++)
+		{
+		alien[index] = new Flocking();
 
 		alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
 

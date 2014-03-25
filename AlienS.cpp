@@ -2,9 +2,12 @@
 #include "AlienS.h"
 #include "Game.h"
 
+float dirx = 0;
+float diry = 0;
+
 AlienS::AlienS():
 	speed(80),
-	alienNo(20)
+	alienNo(3)
 {
 	//_maxVelocity(10.0f);
 	Load("img/alien.png");
@@ -64,12 +67,37 @@ void AlienS::Update(float elapsedTime)
 		for (int index = 1; index < alienNo+1 ; index++)
 		{
 			alien[index] = dynamic_cast<AlienS*>(Game::GetGameObjectsManager().Get(index));
-
 			sf::Vector2f alienGetPos = alien[index]->GetPosition(); // position vector
 
-			//alien movement
-			float dirx = (spaceshipVect.x - alienGetPos.x);
-			float diry = (spaceshipVect.y - alienGetPos.y);
+			for (int index = 1; index < alienNo+1 ; index++)
+			{
+			alien[index] = dynamic_cast<AlienS*>(Game::GetGameObjectsManager().Get(index));
+			alienGetPos = alien[index]->GetPosition(); // position vector
+			// alien movement towards group average
+			dirx += (alienGetPos.x/alienNo); // average x
+			diry += (alienGetPos.y/alienNo); // average y
+			}
+			
+			//for (int index2 = 1; index2 < alienNo+1 ; index2++)
+			//	{
+			//		if (index2 != index) //&& index2 != middleAlienInt)
+			//		{
+			//		alien[index2] = dynamic_cast<AlienF*>(Game::GetGameObjectsManager().Get(index2));
+			//		sf::Vector2f AlienPos = alien[index2]->GetPosition(); // position vector
+			//		// avoid collision
+			//		if ((AlienPos.x - currentAlienPos.x) < 25 && (AlienPos.x - currentAlienPos.x) > -25
+			//		&& (AlienPos.y - currentAlienPos.y) < 25 && (AlienPos.y - currentAlienPos.y) > -25)
+			//			{
+			//				//alienSpeed = 0;
+			//				dirx = (currentAlienPos.x - AlienPos.x);
+			//				diry = (currentAlienPos.y - AlienPos.y);
+			//			}
+			//		}
+			//	}
+
+			// group average movement towards spaceship
+			dirx = (spaceshipVect.x - dirx);
+			diry = (spaceshipVect.y - diry);
 
 			float hyp = sqrt(dirx*dirx + diry*diry);
 

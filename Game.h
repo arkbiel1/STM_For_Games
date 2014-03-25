@@ -5,6 +5,9 @@
 #include "AlienA.h"
 #include "AlienF.h"
 #include "AlienS.h"
+
+#include "Flocking.h"
+
 #include "GameObjectsManager.h"
 
 class Game
@@ -27,6 +30,8 @@ private:
   static AlienA * alienAObj;
   static AlienF * alienFObj;
   static AlienS * alienSObj;
+
+  static Flocking * alienFlocking;
 
   enum GameState { Uninitialized, Playing, Exiting };
   

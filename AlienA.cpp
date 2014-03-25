@@ -3,6 +3,7 @@
 #include "Game.h"
 
 
+
 //AlienA * AlienA::*alienNo;
 
 AlienA::AlienA():
