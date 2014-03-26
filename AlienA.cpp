@@ -49,12 +49,12 @@ void AlienA::Update(float elapsedTime)
 
 	// load spaceship
 	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get(0));
-	sf::Vector2f spaceshipVect;
+	sf::Vector2f spaceshipPos;
 
 	if(spaceship != NULL)
 	{
 		
-		spaceshipVect = spaceship->GetPosition();
+		spaceshipPos = spaceship->GetPosition();
 
 		sf::Rect<float> spaceshipBounds = spaceship->GetBoundingRect();
 
@@ -72,8 +72,8 @@ void AlienA::Update(float elapsedTime)
 			sf::Vector2f alienGetPos = alien[index]->GetPosition(); // position vector
 
 			//alien movement
-			float dirx = (spaceshipVect.x - alienGetPos.x);
-			float diry = (spaceshipVect.y - alienGetPos.y);
+			float dirx = (spaceshipPos.x - alienGetPos.x);
+			float diry = (spaceshipPos.y - alienGetPos.y);
 
 			float hyp = sqrt(dirx*dirx + diry*diry);
 

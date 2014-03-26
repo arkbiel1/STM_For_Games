@@ -7,6 +7,9 @@
 #include "AlienS.h"
 
 #include "Flocking.h"
+#include "ASearch.h"
+
+#include "Obstacle.h"
 
 #include "GameObjectsManager.h"
 
@@ -32,6 +35,7 @@ private:
   static AlienS * alienSObj;
 
   static Flocking * alienFlocking;
+  static ASearch * alienASearch;
 
   enum GameState { Uninitialized, Playing, Exiting };
   

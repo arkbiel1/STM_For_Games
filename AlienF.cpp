@@ -45,12 +45,12 @@ void AlienF::Update(float elapsedTime)
 
 	// load spaceship
 	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get(0));
-	sf::Vector2f spaceshipVect;
+	sf::Vector2f spaceshipPos;
 
 	if(spaceship != NULL)
 	{
 		
-		spaceshipVect = spaceship->GetPosition();
+		spaceshipPos = spaceship->GetPosition();
 
 		sf::Rect<float> spaceshipBounds = spaceship->GetBoundingRect();
 
@@ -74,8 +74,8 @@ void AlienF::Update(float elapsedTime)
 		alien[middleAlienInt] = dynamic_cast<AlienF*>(Game::GetGameObjectsManager().Get(middleAlienInt));
 		sf::Vector2f alienMiddGetPos = alien[middleAlienInt]->GetPosition(); // position vector
 
-		float dirx = (spaceshipVect.x - alienMiddGetPos.x);
-		float diry = (spaceshipVect.y - alienMiddGetPos.y);
+		float dirx = (spaceshipPos.x - alienMiddGetPos.x);
+		float diry = (spaceshipPos.y - alienMiddGetPos.y);
 
 		float hyp = sqrt(dirx*dirx + diry*diry);
 		dirx /= hyp;
@@ -115,10 +115,11 @@ void AlienF::Update(float elapsedTime)
 				if ((alienMiddGetPos.x - currentAlienPos.x) < 30 && (alienMiddGetPos.x - currentAlienPos.x) > -30
 						&& (alienMiddGetPos.y - currentAlienPos.y) < 30 && (alienMiddGetPos.y - currentAlienPos.y) > -30)
 				{
-					int randInt = rand() % Game::SCREEN_WIDTH;
-					dirx = (randInt - currentAlienPos.x);
-					randInt = rand() % Game::SCREEN_HEIGHT;
-					diry = (randInt - currentAlienPos.y);
+					std::srand(Game::SCREEN_WIDTH);
+					int randX = rand() % Game::SCREEN_WIDTH;
+					dirx = (randX - currentAlienPos.x);
+					int randY = rand() % Game::SCREEN_HEIGHT;
+					diry = (randY - currentAlienPos.y);
 				}
 				else 
 				{

@@ -47,12 +47,12 @@ void Flocking::Update(float elapsedTime)
 
 	// load spaceship
 	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get(0));
-	sf::Vector2f spaceshipVect;
+	sf::Vector2f spaceshipPos;
 
 	if(spaceship != NULL)
 	{
 		
-		spaceshipVect = spaceship->GetPosition();
+		spaceshipPos = spaceship->GetPosition();
 
 		sf::Rect<float> spaceshipBounds = spaceship->GetBoundingRect();
 
@@ -76,8 +76,8 @@ void Flocking::Update(float elapsedTime)
 		alien[middleAlienInt] = dynamic_cast<Flocking*>(Game::GetGameObjectsManager().Get(middleAlienInt));
 		sf::Vector2f alienMiddGetPos = alien[middleAlienInt]->GetPosition(); // position vector
 
-		float dirx = (spaceshipVect.x - alienMiddGetPos.x);
-		float diry = (spaceshipVect.y - alienMiddGetPos.y);
+		float dirx = (spaceshipPos.x - alienMiddGetPos.x);
+		float diry = (spaceshipPos.y - alienMiddGetPos.y);
 
 		float initPosx = alienMiddGetPos.x;
 		float initPosy = alienMiddGetPos.y;
@@ -105,6 +105,9 @@ void Flocking::Update(float elapsedTime)
 	
 		float ANG = atan(BC/AC) * 180 / PI;
 
-		printf("BC: %f\nAC: %f\nANG: %f\n", BC,  AC, ANG);
+		// vector
+		float AB = AC/cos(ANG);
+
+		printf("BC: %f\nAC: %f\nANG: %f\nAB(v): %f\n", BC,  AC, ANG, AB);
 	}
 }
