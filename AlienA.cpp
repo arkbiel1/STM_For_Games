@@ -6,9 +6,7 @@
 
 //AlienA * AlienA::*alienNo;
 
-AlienA::AlienA():
-	speed(80),
-	alienNo(30)
+AlienA::AlienA(): speed(80), alienNo(30)
 {
 	//_maxVelocity(10.0f);
 	Load("img/alien.png");

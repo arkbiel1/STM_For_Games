@@ -4,9 +4,7 @@
 
 //AlienA * AlienA::*alienNo;
 
-ASearch::ASearch():
-	speed(80),
-	alienNo(5)
+ASearch::ASearch(): speed(80), alienNo(5)
 {
 	Load("img/alien.png");
 	//throws error window if file loading fails

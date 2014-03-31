@@ -2,9 +2,7 @@
 #include "AlienF.h"
 #include "Game.h"
 
-AlienF::AlienF():
-	speed(80),
-	alienNo(8)
+AlienF::AlienF(): speed(80), alienNo(8)
 {
 	//_maxVelocity(10.0f);
 	Load("img/alien.png");

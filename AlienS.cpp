@@ -5,9 +5,7 @@
 float dirx = 0;
 float diry = 0;
 
-AlienS::AlienS():
-	speed(80),
-	alienNo(3)
+AlienS::AlienS(): speed(80), alienNo(3)
 {
 	//_maxVelocity(10.0f);
 	Load("img/alien.png");

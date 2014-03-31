@@ -107,29 +107,29 @@ void Game::Initialize(int type)
 
 	else if (type == 3)
 	{
+		ASearch * AlienObj = new ASearch();
+		alienASearch = AlienObj;
+
+		int alienNo = alienASearch->GetAlienNo();
+
 		// array of pointers to obstacles
 		Obstacle** obstacle = new Obstacle*[obstNo];
 
-		for (int index = 101; index < obstNo+101; index++)
+		for (int index = alienNo+1 ; index < alienNo+obstNo ; index++)
 		{
 		obstacle[index] = new Obstacle();
 
 		// random numbers for obstacles position
 		int randX = rand() % (Game::SCREEN_WIDTH-200);
-		printf("RandX: %i\n", randX);
+		//printf("RandX: %i\n", randX);
 
 		int randY = rand() % (Game::SCREEN_HEIGHT-200);
-		printf("RandY: %i\n", randY);
+		//printf("RandY: %i\n", randY);
 
 		obstacle[index]->SetPosition(randX+50, randY+50);
 
 		_gameObjectsManager.Add(index, obstacle[index]);
 		}
-
-		ASearch * AlienObj = new ASearch();
-		alienASearch = AlienObj;
-
-		int alienNo = alienASearch->GetAlienNo();
 
 		//printf("AlienNo Game.cpp: %i /n", alienNo);
 
