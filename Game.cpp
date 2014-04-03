@@ -59,7 +59,7 @@ void Game::Initialize(int type)
 		{
 		alien[index] = new Flocking();
 
-		alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
+		alien[index]->SetPosition(20+50*index,(SCREEN_HEIGHT-600));
 
 		_gameObjectsManager.Add(index, alien[index]);
 		}

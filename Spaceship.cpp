@@ -6,7 +6,7 @@
 #include <math.h>
 
 
-Spaceship::Spaceship(): MaxAngAcc(60), MaxLAcc(150), LAcc(0), AngAcc(0), health(2000), rotation(0)
+Spaceship::Spaceship(): MaxAngAcc(60), MaxLAcc(150), LAcc(0), AngAcc(0), health(5000), rotation(0)
 { 
 	//_maxVelocity(10.0f);
 	Load("img/spaceship.png");
