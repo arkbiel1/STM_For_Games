@@ -8,7 +8,7 @@
 //	average position of neibour aliens - centre of mass -> 
 //	steer towards middle alien, and avoid collision
 
-Flocking::Flocking(): maxSpeed(70), alienNo(4)
+Flocking::Flocking(): maxSpeed(70), alienNo(8)
 {
 	//_maxVelocity(10.0f);
 	Load("img/alien.png");
@@ -63,6 +63,8 @@ void Flocking::Update(float elapsedTime)
 	// array of pointers to aliens
 	Flocking** alien = new Flocking*[alienNo]; 
 
+	bool direction = true;
+
 	// load spaceship
 	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get(0));
 	sf::Vector2f spaceshipPos;
@@ -101,14 +103,9 @@ void Flocking::Update(float elapsedTime)
 		// initial acceleration
 		sf::Vector2f accelerationV(0.0f, 0.0f);
 
-		velocityMidd += accelerationV*elapsedTime;
-		if (((velocityMidd.x*velocityMidd.x)+(velocityMidd.y*velocityMidd.y))>maxSpeed*maxSpeed) {
-			velocityMidd = Flocking::Normalize(velocityMidd);
-			velocityMidd *= maxSpeed;
-		}
+		sf::Vector2f separationV(0.0f, 0.0f);
 
-		alien[middleAlienInt]->SetPosition(middleAlienPos.x + velocityMidd.x*elapsedTime/alienNo,
-			middleAlienPos.y + velocityMidd.y*elapsedTime/alienNo);
+		
 		
 		int neighbourCount = 0;
 
@@ -120,9 +117,16 @@ void Flocking::Update(float elapsedTime)
 			alien[index] = dynamic_cast<Flocking*>(Game::GetGameObjectsManager().Get(index));
 			sf::Vector2f currentAlienPos = alien[index]->GetPosition();
 			
+			// head towards middle spaceship
+			float dirx = (middleAlienPos.x - currentAlienPos.x);
+			float diry = (middleAlienPos.y - currentAlienPos.y);
+
 			// initial velocity
 			sf::Vector2f velocityCurr(velocityMidd.x, velocityMidd.y);
-			sf::Vector2f velocityGroup(velocityCurr.x, velocityCurr.y);
+			sf::Vector2f velocityGroup(dirx, diry);//(dirx+100, diry+100);
+			sf::Vector2f velocityDiff(dirx, diry);
+			sf::Vector2f velocitySepp(0.0f, 0.0f);
+			//sf::Vector2f velocityGroup(velocityCurr.x, velocityCurr.y);
 			//sf::Vector2f velocityGroupCoh(0.0f, 0.0f);
 
 			// alignment & cohesion - line up & steer towards average position of neibours
@@ -134,18 +138,22 @@ void Flocking::Update(float elapsedTime)
 
 				// Calculate the difference between the two objects.
 				sf::Vector2f differenceV = currentAlienPos - nextAlienPos;
-				float distance = sqrt(differenceV.x*differenceV.x + differenceV.y*differenceV.y);
+				float distance1 = sqrt(differenceV.x*differenceV.x + differenceV.y*differenceV.y);
 				// check for nearby aliens and steer towards them
-				float neighbourDist = 50;
+				float neighbourDist = 200;
 
 				if (neighbourCount == 0) velocityGroup = velocityCurr;
 
 				// Check of the objects are closer that the collision distance.
-				if (distance < neighbourDist) {
+				if (distance1 < neighbourDist) {
 						neighbourCount++;
+						// Calculate the difference between the two objects.
+						sf::Vector2f differenceV2 = middleAlienPos - currentAlienPos;
+						//float distance = sqrt(differenceV2.x*differenceV2.x + differenceV2.y*differenceV2.y);
+
 						// when a neighbor is found, the position of the neighbour is added to the vector
-						velocityGroup.x += velocityCurr.x;
-						velocityGroup.y += velocityCurr.y;
+						velocityGroup.x += (velocityCurr.x + differenceV2.x)*index*maxSpeed;
+						velocityGroup.y += (velocityCurr.y + differenceV2.y)*index*maxSpeed;
 
 						velocityGroup.x /= neighbourCount;
 						velocityGroup.y /= neighbourCount;
@@ -162,51 +170,145 @@ void Flocking::Update(float elapsedTime)
 						//centerOfMassV += velocityV;
 						//velocityV2 += centerOfMassV;
 					   //}
-					}
+						float separation = 40;
 
+						// Check of the objects are closer that the collision distance.
+						if (distance1 < separation) { 
+							//velocityGroup *= -1.0f;
+							//printf("collitsion alien[%i]: alien2[%i]\n", index, index2);
 
-				}
-			}
+							//velocityGroup.x = currentAlienPos.x - nextAlienPos.x;
+							//velocityGroup.y = currentAlienPos.y - nextAlienPos.y;
+							velocitySepp.x = currentAlienPos.x - nextAlienPos.x;
+							velocitySepp.y = currentAlienPos.y - nextAlienPos.y;
 
-			// separation
-			for (int index2 = 1; index2 < alienNo+1 ; index2++) {
-				if (index != index2 && index2 != middleAlienInt) {
-				alien[index2] = dynamic_cast<Flocking*>(Game::GetGameObjectsManager().Get(index2));
-				sf::Vector2f nextAlienPos = alien[index2]->GetPosition();
-
-				/*printf("currAlien index: %i\n", index);
-				printf("nextAlien index2: %i\n", index2);
-				printf("middAlienInt: %i\n", middleAlienInt);*/
-
-				// Calculate the difference between the two objects.
-				sf::Vector2f differenceV = currentAlienPos - nextAlienPos;
-				float distance = sqrt(differenceV.x*differenceV.x + differenceV.y*differenceV.y);
-				// separation - check for nearby aliens and steer way
-				float separation = 50;
-
-				// Check of the objects are closer that the collision distance.
-				if (distance < separation) {
-					//// when a neighbor is found, the distance from the agent to the neighbor is added to the vector
-					//velocityV2.x += nextAlienPos.x - currentAlienPos.x;
-					//velocityV2.y += nextAlienPos.y - currentAlienPos.y;
-					//// vector need to be negated in order to steer away
-					//velocityV2.x *= -1;
-					//velocityV2.y *= -1;
-					////printf("neib currAlien index: %i\n", index);
-					////printf("neib nextAlien index2: %i\n", index2);
-					////printf("velocityV2 *= -1;\n");
+							//printf("currentAlienPos.x: %f\n", currentAlienPos.x); 
+							//printf("currentAlienPos.y: %f\n", currentAlienPos.y); 
+							//separationV.x += velocityGroup.x;
+							//separationV.x += velocityGroup.y;
+							// when a neighbor is found, the distance from the agent to the neighbor is added to the vector
+							//velocityGroup.x += currentAlienPos.x - nextAlienPos.x;
+							//velocityGroup.y += currentAlienPos.y - nextAlienPos.y;
+							//Vdir[index] = -1.0f;
+							direction = false;
+							//velocityV2.y *= -1;
+							printf("neib currAlien index: %i\n", index);
+							printf("velocitySepp.x: %f\n", velocitySepp.x);
+							printf("velocitySepp.y: %f\n", velocitySepp.y);
+							//printf("neib nextAlien index2: %i\n", index2);
+							////printf("velocityV2 *= -1;\n");
+							}
 					}
 				}
 			}
+
+			//// separation
+			//for (int index2 = 1; index2 < alienNo+1 ; index2++) {
+			//	if (index != index2) { //&& index2 != middleAlienInt) {
+			//	alien[index2] = dynamic_cast<Flocking*>(Game::GetGameObjectsManager().Get(index2));
+			//	sf::Vector2f nextAlienPos = alien[index2]->GetPosition();
+
+			//	/*printf("currAlien index: %i\n", index);
+			//	printf("nextAlien index2: %i\n", index2);
+			//	printf("middAlienInt: %i\n", middleAlienInt);*/
+
+			//	// Calculate the difference between the two objects.
+			//	sf::Vector2f differenceV = currentAlienPos - nextAlienPos;
+			//	float distance = sqrt(differenceV.x*differenceV.x + differenceV.y*differenceV.y);
+			//	// separation - check for nearby aliens and steer way
+			//	float separation = 40;
+
+			//	// Check of the objects are closer that the collision distance.
+			//	if (distance < separation) { 
+			//		//velocityGroup *= -1.0f;
+			//		//printf("collitsion alien[%i]: alien2[%i]\n", index, index2);
+			//		velocityGroup.x = currentAlienPos.x - nextAlienPos.x;
+			//		velocityGroup.y = currentAlienPos.y - nextAlienPos.y;
+			//		//separationV.x += velocityGroup.x;
+			//		//separationV.x += velocityGroup.y;
+			//		// when a neighbor is found, the distance from the agent to the neighbor is added to the vector
+			//		//velocityGroup.x += currentAlienPos.x - nextAlienPos.x;
+			//		//velocityGroup.y += currentAlienPos.y - nextAlienPos.y;
+			//		//Vdir[index] = -1.0f;
+			//		direction = false;
+			//		//velocityV2.y *= -1;
+			//		//printf("neib currAlien index: %i\n", index);
+			//		//printf("neib nextAlien index2: %i\n", index2);
+			//		////printf("velocityV2 *= -1;\n");
+			//		}
+			//	else (Vdir[index] = 1);
+			//	}
+			//}
+			
+
 			velocityGroup += accelerationV*elapsedTime;
 			if (((velocityGroup.x*velocityGroup.x)+(velocityGroup.y*velocityGroup.y))>maxSpeed*maxSpeed) {
 				velocityGroup = Flocking::Normalize(velocityGroup);
 				velocityGroup *= maxSpeed;
 			}
+
+			velocityDiff += accelerationV*elapsedTime;
+			if (((velocityDiff.x*velocityDiff.x)+(velocityDiff.y*velocityDiff.y))>maxSpeed*maxSpeed) {
+				velocityDiff = Flocking::Normalize(velocityDiff);
+				velocityDiff *= maxSpeed;
+			}
+
+			//if(direction == false) {
+			//	velocityGroup += accelerationV*elapsedTime;
+			//	if (((velocityGroup.x*velocityGroup.x)+(velocityGroup.y*velocityGroup.y))>maxSpeed*maxSpeed) {
+			//	velocityGroup = Flocking::Normalize(separationV);
+			//	velocityGroup *= maxSpeed;
+			//	// vector need to be negated for that alien, in order to steer away
+			//	velocityGroup *= -1.0f;
+			//	}
+			//}
+
+			if(direction == false && index != middleAlienInt) {
+				velocityGroup = velocitySepp;
+				velocityGroup += accelerationV*elapsedTime;
+				velocityGroup *= -1.0f;
+				if (((velocityGroup.x*velocityGroup.x)+(velocityGroup.y*velocityGroup.y))>maxSpeed*maxSpeed) {
+				velocityGroup = Flocking::Normalize(velocityGroup);
+				velocityGroup *= maxSpeed;
+				// vector need to be negated for that alien, in order to steer away
+				//velocityGroup *= -1.0f;
+				}
+				velocityGroup += velocityDiff;
+				velocityGroup *= -1.0f;
+				
+				//velocityDiff.x = 0;
+				//velocityDiff.y = 0;
+			}
+
+			if(direction == false && index == middleAlienInt) {
+			//velocityMidd.x = velocitySepp.x - spaceshipPos.x;
+			//velocityMidd.y = velocitySepp.y - spaceshipPos.y;
+				velocityMidd += accelerationV*elapsedTime;
+				if (((velocityMidd.x*velocityMidd.x)+(velocityMidd.y*velocityMidd.y))>maxSpeed*maxSpeed) {
+				velocityMidd = Flocking::Normalize(velocityMidd);
+				velocityMidd *= maxSpeed;
+				// vector need to be negated for that alien, in order to steer away
+				//velocityMidd *= -1.0f;
+				}
+			}
+
+			else {
+			velocityMidd += accelerationV*elapsedTime;
+			if (((velocityMidd.x*velocityMidd.x)+(velocityMidd.y*velocityMidd.y))>maxSpeed*maxSpeed) {
+				velocityMidd = Flocking::Normalize(velocityMidd);
+				velocityMidd *= maxSpeed;
+				}
+			}
+
+			alien[middleAlienInt]->SetPosition(middleAlienPos.x + velocityMidd.x*elapsedTime/alienNo,
+			middleAlienPos.y + velocityMidd.y*elapsedTime/alienNo);
+
 			//printf("\n");
 			if (index != middleAlienInt) {
-			alien[index]->SetPosition(currentAlienPos.x + (velocityGroup.x)*elapsedTime/alienNo, 
-				currentAlienPos.y + (velocityGroup.y)*elapsedTime/alienNo);
+			alien[index]->SetPosition(currentAlienPos.x + (velocityGroup.x)*elapsedTime/alienNo
+														+ (velocityDiff.x)*elapsedTime/alienNo,
+									  currentAlienPos.y + (velocityGroup.y)*elapsedTime/alienNo
+														+ (velocityDiff.y)*elapsedTime/alienNo);
 			}
 			//	printf("\n");
 			//	velocityV2 += accelerationV2*elapsedTime;
