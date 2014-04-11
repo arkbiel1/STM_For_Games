@@ -18,6 +18,7 @@ AlienF * Game::alienFObj;
 AlienS * Game::alienSObj;
 
 Flocking * Game::alienFlocking;
+Swarming * Game::alienSwarming;
 ASearch * Game::alienASearch;
 
 int obstNo = 15;
@@ -59,7 +60,7 @@ void Game::Initialize(int type)
 		{
 		alien[index] = new Flocking();
 
-		alien[index]->SetPosition(20+50*index,(SCREEN_HEIGHT-600));
+		alien[index]->SetPosition(50*index,(SCREEN_HEIGHT-600));
 
 		_gameObjectsManager.Add(index, alien[index]);
 		}
@@ -85,21 +86,21 @@ void Game::Initialize(int type)
 
 	else if (type == 2)
 	{
-		AlienS * AlienObj = new AlienS();
-		alienSObj = AlienObj;
+		Swarming * AlienObj = new Swarming();
+		alienSwarming = AlienObj;
 
-		int alienNo = alienSObj->GetAlienNo();
+		int alienNo = alienSwarming->GetAlienNo();
 
 		//printf("AlienNo Game.cpp: %i /n", alienNo);
 
 		// array of pointers to aliens
-		AlienS** alien = new AlienS*[alienNo];
+		Swarming** alien = new Swarming*[alienNo];
 
 		for (int index = 1; index < alienNo+1 ; index++)
 		{
-		alien[index] = new AlienS();
+		alien[index] = new Swarming();
 
-		alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
+		alien[index]->SetPosition(50*index,(SCREEN_HEIGHT-600));
 
 		_gameObjectsManager.Add(index, alien[index]);
 		}
@@ -107,43 +108,43 @@ void Game::Initialize(int type)
 
 	else if (type == 3)
 	{
-		ASearch * AlienObj = new ASearch();
-		alienASearch = AlienObj;
+		//ASearch * AlienObj = new ASearch();
+		//alienASearch = AlienObj;
 
-		int alienNo = alienASearch->GetAlienNo();
+		//int alienNo = alienASearch->GetAlienNo();
 
-		// array of pointers to obstacles
-		Obstacle** obstacle = new Obstacle*[obstNo];
+		//// array of pointers to obstacles
+		//Obstacle** obstacle = new Obstacle*[obstNo];
 
-		for (int index = alienNo+1 ; index < alienNo+obstNo ; index++)
-		{
-		obstacle[index] = new Obstacle();
+		//for (int index = alienNo+1 ; index < alienNo+obstNo ; index++)
+		//{
+		//obstacle[index] = new Obstacle();
 
-		// random numbers for obstacles position
-		int randX = rand() % (Game::SCREEN_WIDTH-200);
-		//printf("RandX: %i\n", randX);
+		//// random numbers for obstacles position
+		//int randX = rand() % (Game::SCREEN_WIDTH-200);
+		////printf("RandX: %i\n", randX);
 
-		int randY = rand() % (Game::SCREEN_HEIGHT-200);
-		//printf("RandY: %i\n", randY);
+		//int randY = rand() % (Game::SCREEN_HEIGHT-200);
+		////printf("RandY: %i\n", randY);
 
-		obstacle[index]->SetPosition(randX+50, randY+50);
+		//obstacle[index]->SetPosition(randX+50, randY+50);
 
-		_gameObjectsManager.Add(index, obstacle[index]);
-		}
+		//_gameObjectsManager.Add(index, obstacle[index]);
+		//}
 
-		//printf("AlienNo Game.cpp: %i /n", alienNo);
+		////printf("AlienNo Game.cpp: %i /n", alienNo);
 
-		// array of pointers to aliens
-		ASearch** alien = new ASearch*[alienNo];
+		//// array of pointers to aliens
+		//ASearch** alien = new ASearch*[alienNo];
 
-		for (int index = 1; index < alienNo+1 ; index++)
-		{
-		alien[index] = new ASearch();
+		//for (int index = 1; index < alienNo+1 ; index++)
+		//{
+		//alien[index] = new ASearch();
 
-		alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
+		//alien[index]->SetPosition(20+20*index,(SCREEN_HEIGHT-600));
 
-		_gameObjectsManager.Add(index, alien[index]);
-		}
+		//_gameObjectsManager.Add(index, alien[index]);
+		//}
 
 		
 

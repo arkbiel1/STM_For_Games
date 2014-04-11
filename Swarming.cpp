@@ -6,7 +6,7 @@
 
 // average position of all aliens - centre of mass -> steer towards spaceship, and avoid collision
 
-Swarming::Swarming(): maxSpeed(20), alienNo(3)
+Swarming::Swarming(): maxSpeed(70), alienNo(5)
 {
 	//_maxVelocity(10.0f);
 	Load("img/alien.png");
@@ -51,6 +51,8 @@ void Swarming::Update(float elapsedTime)
 	// array of pointers to aliens
 	Swarming** alien = new Swarming*[alienNo]; 
 
+	bool direction = true;
+
 	// load spaceship
 	Spaceship* spaceship = dynamic_cast<Spaceship*>(Game::GetGameObjectsManager().Get(0));
 	sf::Vector2f spaceshipPos;
@@ -63,127 +65,177 @@ void Swarming::Update(float elapsedTime)
 			spaceship->reduceHealth(1);
 		}
 
-		int middleAlienInt = alienNo/2 +1;
-
-		// middle alien movement
-		if (alienNo < 3){
-			middleAlienInt = 1;
-		}
-
-		alien[middleAlienInt] = dynamic_cast<Swarming*>(Game::GetGameObjectsManager().Get(middleAlienInt));
-		sf::Vector2f middleAlienPos = alien[middleAlienInt]->GetPosition(); // position vector
-
-		// head towards spaceship
-		float dirx = (spaceshipPos.x - middleAlienPos.x);
-		float diry = (spaceshipPos.y - middleAlienPos.y);
-
-		//float initPosx = alienMiddGetPos.x;
-		//float initPosy = alienMiddGetPos.y;
-
-		//float hyp = sqrt(dirx*dirx + diry*diry);
-		//dirx /= hyp;
-		//diry /= hyp;
-
+		
 		// initial velocity
-		sf::Vector2f velocityV(dirx, diry);
+		sf::Vector2f velocityGroup(0.0f, 0.0f);
+		sf::Vector2f velocityAvg(0.0f, 0.0f);
+		sf::Vector2f centerOfMassV(0.0f, 0.0f);
+		// velocity steers towards spaceship
+		//velocityGroup.x = (spaceshipPos.x - velocityGroup.x);
+		//velocityGroup.y = (spaceshipPos.y - velocityGroup.y);
+
 		// initial acceleration
 		sf::Vector2f accelerationV(0.0f, 0.0f);
+		// initial velocity
+		//sf::Vector2f centerOfMassV(0.0f, 0.0f);
+		sf::Vector2f velocityToShip(0.0f, 0.0f);
+		//sf::Vector2f velocitySepp(0.0f, 0.0f);
 
-		velocityV += accelerationV*elapsedTime;
-		if (((velocityV.x*velocityV.x)+(velocityV.y*velocityV.y))>maxSpeed*maxSpeed) {
-			velocityV = Swarming::Normalize(velocityV);
-			velocityV *= maxSpeed;
-		}
-
-		alien[middleAlienInt]->SetPosition(middleAlienPos.x + velocityV.x*elapsedTime, middleAlienPos.y + velocityV.y*elapsedTime);
-
-		int neibourCount = 0;
-
-		// alien group movement
+		// alien group movement - first part get average velocity
 		for (int index = 1; index < alienNo+1 ; index++) {
-			// except middle alien
-			//if (index != middleAlienInt) {
 			// current alien position
 			alien[index] = dynamic_cast<Swarming*>(Game::GetGameObjectsManager().Get(index));
 			sf::Vector2f currentAlienPos = alien[index]->GetPosition();
+
+			// add every alien to the average position of the group
+			velocityGroup += currentAlienPos;
+
+			//printf("currentAlienPos.x: %f, index: %i\n", currentAlienPos.x, index);
+			//printf("velocityGroup.y: %f, index: %i\n", velocityGroup.y, index);
+		}
+
+		velocityAvg.x = velocityGroup.x/alienNo;
+		velocityAvg.y = velocityGroup.y/alienNo;
+		printf("velocityAvg.x: %f\n", velocityAvg.x);
+
+		// alien group movement - second part move towards average velocity
+		for (int index = 1; index < alienNo+1 ; index++) {
+			// current alien position
+			alien[index] = dynamic_cast<Swarming*>(Game::GetGameObjectsManager().Get(index));
+			sf::Vector2f currentAlienPos = alien[index]->GetPosition();
+
+			// head towards average velocity
+			float dirx = (velocityAvg.x - currentAlienPos.x);
+			float diry = (velocityAvg.y - currentAlienPos.y);
+
+			sf::Vector2f centerOfMassV(dirx, diry);
+
+			centerOfMassV += accelerationV*elapsedTime;
+			if (((centerOfMassV.x*centerOfMassV.x)+(centerOfMassV.y*centerOfMassV.y))>maxSpeed*maxSpeed) {
+				centerOfMassV = Swarming::Normalize(centerOfMassV);
+				centerOfMassV *= maxSpeed;
+			}
+
+			alien[index]->SetPosition(currentAlienPos.x + (centerOfMassV.x)*elapsedTime/alienNo,
+									  currentAlienPos.y + (centerOfMassV.y)*elapsedTime/alienNo);
+		}
+
+		// alien group movement - third part steer towards spaceship
+		for (int index = 1; index < alienNo+1 ; index++) {
+
+			// current alien position
+			alien[index] = dynamic_cast<Swarming*>(Game::GetGameObjectsManager().Get(index));
+			sf::Vector2f currentAlienPos = alien[index]->GetPosition();
+
+			float dirx = (spaceshipPos.x - centerOfMassV.x);
+			float diry = (spaceshipPos.y - centerOfMassV.y);
+
+			sf::Vector2f velocityToShip(dirx, diry);
+
+			velocityToShip += accelerationV*elapsedTime;
+			if (((velocityToShip.x*velocityToShip.x)+(velocityToShip.y*velocityToShip.y))>maxSpeed*maxSpeed) {
+				velocityToShip = Swarming::Normalize(velocityToShip);
+				velocityToShip *= maxSpeed;
+			}
+
+			alien[index]->SetPosition(currentAlienPos.x + (velocityToShip.x)*elapsedTime/alienNo,
+									  currentAlienPos.y + (velocityToShip.y)*elapsedTime/alienNo);
+
+			printf("velocityToShip.x: %f\n", velocityToShip.x);
+			printf("velocityToShip.y: %f\n", velocityToShip.y);
+
+		}
+			//velocitySum += currentAlienPos;
 			
-			// initial velocity
-			sf::Vector2f velocityV2(0.0f, 0.0f);
-			sf::Vector2f accelerationV2(0.0f, 0.0f);
+			
+			// direction (towards spaceship)
+			/*float dirx = (spaceshipPos.x - velocitySum.x/alienNo);
+			float diry = (spaceshipPos.y - velocitySum.y/alienNo);*/
+/*
+			printf("velocityGroup.x: %f\n", velocityGroup.x);
+			printf("velocityGroup.y: %f\n", velocityGroup.y);*/
 
-			//int neibourDist = 180;
+			//sf::Vector2f velocityToShip(dirx, diry);
 
-			// cohesion - steer towards average position of neibours
-			for (int index2 = 1; index2 < alienNo+1 ; index2++) {
-				if (index != index2) {//&& middleAlienInt != index2) {
-				
-				alien[index2] = dynamic_cast<Swarming*>(Game::GetGameObjectsManager().Get(index2));
-				sf::Vector2f nextAlienPos = alien[index2]->GetPosition();
+			// alignment & cohesion - line up & steer towards average position of neibours
+			//for (int index2 = 1; index2 < alienNo+1 ; index2++) {
+			//	if (index != index2) {//&& middleAlienInt != index2) {
+			//	
+			//	alien[index2] = dynamic_cast<Swarming*>(Game::GetGameObjectsManager().Get(index2));
+			//	sf::Vector2f nextAlienPos = alien[index2]->GetPosition();
 
-					/*if (abs (currentAlienPos.x - nextAlienPos.x) < neibourDist
-						&& abs (currentAlienPos.y - nextAlienPos.y) < neibourDist) {*/
+			//	// Calculate the difference between the two objects.
+			//	sf::Vector2f differenceV = currentAlienPos - nextAlienPos;
+			//	float distance1 = sqrt(differenceV.x*differenceV.x + differenceV.y*differenceV.y);
 
-						neibourCount++;
+			//	//if (neighbourCount == 0) velocityGroup = velocityCurr;
 
-						//velocityV2.x = 1;
-						//velocityV2.y = 1;
+			//	// Calculate the difference between the two objects.
+			//	sf::Vector2f differenceV2 = nextAlienPos - currentAlienPos;
+			//	float distance = sqrt(differenceV2.x*differenceV2.x + differenceV2.y*differenceV2.y);
 
-						// when a neighbor is found, the position of the neighbor is added to the vector
-						velocityV2.x += nextAlienPos.x;
-						velocityV2.y += nextAlienPos.y;
-						// vector is divided by the neighbor count, resulting in the position that corresponds to the center of mass
-						velocityV2.x /= neibourCount;
-						velocityV2.y /= neibourCount;
-						// direction towards the center of mass
-						sf::Vector2f centerOfMassV(velocityV2.x - currentAlienPos.x, velocityV2.y - currentAlienPos.y);
-						//centerOfMassV = Flocking::Normalize(centerOfMassV);
-						//velocityV2.x = velocityV2.x - currentAlienPos.x;
-						//velocityV2.y = velocityV2.y - currentAlienPos.y;
-						//printf("neibourCount alien[%i]: %i\n", index, neibourCount);
-						//printf("centerOfMassV X: %f,  Y: %f\n", centerOfMassV.x, centerOfMassV.y);
-						centerOfMassV += velocityV;
-						velocityV2 += centerOfMassV;
-					   //}
-				}
-			}
+			//	// when a neighbor is found, the position of the neighbour is added to the vector
+			//	//velocityGroup.x += (velocityCurr.x + differenceV2.x);
+			//	//velocityGroup.y += (velocityCurr.y + differenceV2.y);
 
-			// separation
-			for (int index2 = 1; index2 < alienNo+1 ; index2++) {
-				if (index != index2) {
-				alien[index2] = dynamic_cast<Swarming*>(Game::GetGameObjectsManager().Get(index2));
-				sf::Vector2f nextAlienPos = alien[index2]->GetPosition();
+			//	//velocityGroup.x /= alienNo;
+			//	//velocityGroup.y /= alienNo;
 
-				/*printf("currAlien index: %i\n", index);
-				printf("nextAlien index2: %i\n", index2);
-				printf("middAlienInt: %i\n", middleAlienInt);*/
+			//	float separation = 40;
 
-				// Calculate the difference between the two objects.
-				sf::Vector2f differenceV = currentAlienPos - nextAlienPos;
-				float distance = sqrt(differenceV.x*differenceV.x + differenceV.y*differenceV.y);
-				// separation - check for nearby aliens and steer way
-				float separation = 50;
+			//	// Check of the objects are closer that the collision distance.
+			//	if (distance1 < separation) { 
 
-				// Check of the objects are closer that the collision distance.
-				if (distance < separation) {
-					//// when a neighbor is found, the distance from the agent to the neighbor is added to the vector
-					//velocityV2.x += nextAlienPos.x - currentAlienPos.x;
-					//velocityV2.y += nextAlienPos.y - currentAlienPos.y;
-					//// vector need to be negated in order to steer away
-					//velocityV2.x *= -1;
-					//velocityV2.y *= -1;
-					////printf("neib currAlien index: %i\n", index);
-					////printf("neib nextAlien index2: %i\n", index2);
-					////printf("velocityV2 *= -1;\n");
-					}
-				}
-			}
-			velocityV2 += accelerationV*elapsedTime;
-			if (((velocityV2.x*velocityV2.x)+(velocityV2.y*velocityV2.y))>maxSpeed*maxSpeed) {
-				velocityV2 = Swarming::Normalize(velocityV2);
-				velocityV2 *= maxSpeed;
-			}
-			printf("\n");
-			alien[index]->SetPosition(currentAlienPos.x + velocityV2.x*elapsedTime, currentAlienPos.y + velocityV2.y*elapsedTime);
-	  }
+				//velocityGroup.x = currentAlienPos.x - nextAlienPos.x;
+				//velocityGroup.y = currentAlienPos.y - nextAlienPos.y;
+				//velocitySepp.x = currentAlienPos.x - nextAlienPos.x;
+				//velocitySepp.y = currentAlienPos.y - nextAlienPos.y;
+
+				//direction = false;
+
+				//velocityV2.y *= -1;
+				/*printf("neib currAlien index: %i\n", index);
+				printf("velocitySepp.x: %f\n", velocitySepp.x);
+				printf("velocitySepp.y: %f\n", velocitySepp.y);*/
+				//printf("neib nextAlien index2: %i\n", index2);
+				////printf("velocityV2 *= -1;\n");
+		
+
+		/*velocityToShip += accelerationV*elapsedTime;
+		if (((velocityToShip.x*velocityToShip.x)+(velocityToShip.y*velocityToShip.y))>maxSpeed*maxSpeed) {
+			velocityToShip = Swarming::Normalize(velocityToShip);
+			velocityToShip *= maxSpeed;
+		}*/
+
+		//if(direction == false) {
+		//	velocityGroup = velocitySepp;
+		//	velocityGroup += accelerationV*elapsedTime;
+		//	velocityGroup *= -1.0f;
+		//	if (((velocityGroup.x*velocityGroup.x)+(velocityGroup.y*velocityGroup.y))>maxSpeed*maxSpeed) {
+		//	velocityGroup = Swarming::Normalize(velocityGroup);
+		//	velocityGroup *= maxSpeed;
+		//	// vector need to be negated for that alien, in order to steer away
+		//	//velocityGroup *= -1.0f;
+		//	}
+		//	velocityGroup += velocityDiff;
+		//	velocityGroup *= -1.0f;
+		//}
+
+		//velocityGroup.x -= currentAlienPos.x;
+		//velocityGroup.y -= currentAlienPos.y;
+
+		/*velocityGroup += accelerationV*elapsedTime;
+		if (((velocityGroup.x*velocityGroup.x)+(velocityGroup.y*velocityGroup.y))>maxSpeed*maxSpeed) {
+			velocityGroup = Swarming::Normalize(velocityGroup);
+			velocityGroup *= maxSpeed;
+		}*/
+
+
+		
+
+		//alien[index]->SetPosition(currentAlienPos.x, //+ (velocityGroup.x)*elapsedTime/alienNo,
+		//											//+ (velocityToShip.y)*elapsedTime/alienNo,
+		//						  currentAlienPos.y); //+ (velocityGroup.y)*elapsedTime/alienNo);
+		//											//+ (velocityToShip.y)*elapsedTime/alienNo);
 	}
 }

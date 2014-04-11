@@ -90,7 +90,8 @@ void Flocking::Update(float elapsedTime)
 		// head towards spaceship
 		float dirx = (spaceshipPos.x - middleAlienPos.x);
 		float diry = (spaceshipPos.y - middleAlienPos.y);
-
+		printf("dir.x: %f\n", dirx);
+		printf("dir.y: %f\n", diry);
 		//float initPosx = alienMiddGetPos.x;
 		//float initPosy = alienMiddGetPos.y;
 
@@ -122,10 +123,13 @@ void Flocking::Update(float elapsedTime)
 			float diry = (middleAlienPos.y - currentAlienPos.y);
 
 			// initial velocity
-			sf::Vector2f velocityCurr(velocityMidd.x, velocityMidd.y);
+			//sf::Vector2f velocityCurr(velocityMidd.x, velocityMidd.y);
 			sf::Vector2f velocityGroup(dirx, diry);//(dirx+100, diry+100);
 			sf::Vector2f velocityDiff(dirx, diry);
 			sf::Vector2f velocitySepp(0.0f, 0.0f);
+
+			
+
 			//sf::Vector2f velocityGroup(velocityCurr.x, velocityCurr.y);
 			//sf::Vector2f velocityGroupCoh(0.0f, 0.0f);
 
@@ -192,9 +196,9 @@ void Flocking::Update(float elapsedTime)
 							//Vdir[index] = -1.0f;
 							direction = false;
 							//velocityV2.y *= -1;
-							printf("neib currAlien index: %i\n", index);
-							printf("velocitySepp.x: %f\n", velocitySepp.x);
-							printf("velocitySepp.y: %f\n", velocitySepp.y);
+							//printf("neib currAlien index: %i\n", index);
+							//printf("velocitySepp.x: %f\n", velocitySepp.x);
+							//printf("velocitySepp.y: %f\n", velocitySepp.y);
 							//printf("neib nextAlien index2: %i\n", index2);
 							////printf("velocityV2 *= -1;\n");
 							}
