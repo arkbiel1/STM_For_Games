@@ -8,15 +8,16 @@
 
 int main()
 {
-	int thread_number;
-    #pragma omp parallel private(thread_number)
-    {
-        #pragma omp for schedule(static) nowait
-        for (int i = 0; i < 100; i++) {
-            thread_number = omp_get_thread_num();
-            printf("Thread %i says %i \n" + thread_number, i);
-        }
-    }
+	//int thread_number;
+
+ //   #pragma omp parallel    
+	//{
+	//#pragma omp parallel for
+	//	for (int i = 0; i < 100; i++) {
+	//				thread_number = omp_get_thread_num();
+	//				printf("Thread %i says %i \n" + thread_number, i);
+	//	}
+	//}
 
     sf::RenderWindow window(sf::VideoMode(1024, 600), "STM for Games");
     sf::Texture mainMenu;
