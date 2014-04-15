@@ -85,9 +85,8 @@ void Swarming::Update(float elapsedTime)
 		//sf::Vector2f centerOfMassV(0.0f, 0.0f);
 		sf::Vector2f velocityToShip(0.0f, 0.0f);
 		//sf::Vector2f velocitySepp(0.0f, 0.0f);
-		
-		//#pragma omp parallel    
-		//#pragma omp parallel for
+		 
+		#pragma omp parallel for schedule(dynamic, alienNo+1)
 		// alien group movement - first part get average velocity
 		for (int index = 1; index < alienNo+1 ; index++) {
 			// current alien position
@@ -96,9 +95,6 @@ void Swarming::Update(float elapsedTime)
 
 			// add every alien to the average position of the group
 			velocityGroup += currentAlienPos;
-
-			//printf("currentAlienPos.x: %f, index: %i\n", currentAlienPos.x, index);
-			//printf("velocityGroup.y: %f, index: %i\n", velocityGroup.y, index);
 		}
 
 		velocityAvg.x = velocityGroup.x/alienNo;
@@ -110,8 +106,8 @@ void Swarming::Update(float elapsedTime)
 		int index = 1;
 		int index2 = 1;
 
-		#pragma omp parallel    
-		#pragma omp for firstprivate(index2) lastprivate(index)
+		//#pragma omp parallel    
+		#pragma omp parallel for schedule(dynamic, alienNo+1) ordered firstprivate(index2) lastprivate(index)
 		// alien group movement - second part move towards average velocity
 		for (int index = 1; index < alienNo+1 ; index++) {
 			// current alien position
@@ -142,8 +138,8 @@ void Swarming::Update(float elapsedTime)
 				float separation = 50;
 
 				// random y velocity for each alien in a swarm
-				if (distance1 < 200) { 
-					velocityRandom.y = spaceshipPos.y - (rand()+50) % (1000);
+				if (distance1 < 300) { 
+					velocityRandom.y = spaceshipPos.y - (rand() % 1000);
 					}
 
 				// Check of the objects are closer that the collision distance.
@@ -199,10 +195,10 @@ void Swarming::Update(float elapsedTime)
 				}
 			}
 			alien[index]->SetPosition(currentAlienPos.x + (centerOfMassV.x)*elapsedTime/alienNo
-														+ (velocityToShip.x)*elapsedTime/alienNo,
+														 + (velocityToShip.x)*elapsedTime/alienNo,
 									  currentAlienPos.y + (centerOfMassV.y)*elapsedTime/alienNo
-														+ (velocityToShip.y)*elapsedTime/alienNo
-														+ (velocityRandom.y)*elapsedTime/alienNo);
+														 + (velocityToShip.y)*elapsedTime/alienNo
+														  + (velocityRandom.y)*elapsedTime/alienNo);
 		  }
 
 		//} // end pragma openmp

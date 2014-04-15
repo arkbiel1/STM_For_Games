@@ -102,8 +102,10 @@ void Flocking::Update(float elapsedTime)
 		int neighbourCount = 0;
 		int index = 1;
 		int index2 = 1;
-		#pragma omp parallel  
-		#pragma omp for firstprivate(index2) lastprivate(index)
+		//#pragma omp for schedule(static) ordered
+		//#pragma omp parallel  
+		//#pragma omp for firstprivate(index2) lastprivate(index)
+		#pragma omp parallel for schedule(dynamic, alienNo+1) ordered firstprivate(index2) lastprivate(index)
 		// alien group movement
 		for (index = 1 ; index < alienNo+1 ; index++) {
 			alien[index] = dynamic_cast<Flocking*>(Game::GetGameObjectsManager().Get(index));
@@ -198,15 +200,16 @@ void Flocking::Update(float elapsedTime)
 				}
 			}
 
+			//#pragma omp ordered  
 			alien[middleAlienInt]->SetPosition(middleAlienPos.x + velocityMidd.x*elapsedTime/alienNo,
-			middleAlienPos.y + velocityMidd.y*elapsedTime/alienNo);
+												middleAlienPos.y + velocityMidd.y*elapsedTime/alienNo);
 
 			//printf("\n");
 			if (index != middleAlienInt) {
 			alien[index]->SetPosition(currentAlienPos.x + (velocityGroup.x)*elapsedTime/alienNo
-														+ (velocityDiff.x)*elapsedTime/alienNo,
+														 + (velocityDiff.x)*elapsedTime/alienNo,
 									  currentAlienPos.y + (velocityGroup.y)*elapsedTime/alienNo
-														+ (velocityDiff.y)*elapsedTime/alienNo);
+														 + (velocityDiff.y)*elapsedTime/alienNo);
 			}
 		  }
 	} 
